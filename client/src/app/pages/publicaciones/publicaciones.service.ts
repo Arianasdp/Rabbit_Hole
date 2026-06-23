@@ -8,7 +8,8 @@ import { IPublicacion } from "./publicacion/publicacion.interface";
 })
 export class PublicacionesService {
 
-    apiUrl = environment.apiUrl;
+    // apiUrl = environment.apiUrl;
+    apiUrl = 'https://rabbit-hole-backend.onrender.com';
 
     constructor(private http: HttpClient) {} 
 
