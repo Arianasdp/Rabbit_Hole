@@ -9,7 +9,10 @@ async function bootstrap() {
     new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }),
   );
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: [
+      'http://localhost:4200',
+      'https://rabbit-hole-phi-three.vercel.app',
+    ],
   });
   await app.listen(process.env.PORT ?? 3000);
 }
