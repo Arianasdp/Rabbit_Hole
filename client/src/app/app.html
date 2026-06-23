@@ -1,0 +1,76 @@
+<nav class="navbar">
+
+  @if (authService.isLoggedIn()) {
+    <img class="logo" src="assets/rabbithole.png" alt="rabbithole">
+  }
+
+  <div class="user-menu" (click)="toggleMenu()">
+
+    @if (authService.isLoggedIn()) {
+
+      <img class="profile" [src]="authService.apiUrl + authService.profile()?.img" alt="rabbithole">
+
+      <span>{{ authService.profile()?.username }}</span>
+
+    } @else {
+
+      <img src="assets/rabbithole.png" alt="rabbithole">
+      <span>Username</span>
+
+    }
+
+    <i
+      class="bi"
+      [class.bi-chevron-down]="!menuOpen"
+      [class.bi-chevron-up]="menuOpen"
+    ></i>
+
+  </div>
+
+  @if (menuOpen) {
+
+    <div class="dropdown">
+
+      @if (authService.isLoggedIn()) {
+
+        <a routerLink="/mi-perfil">
+          <i class="bi bi-person"></i>
+          Mi perfil
+        </a>
+
+        <a routerLink="/publicaciones">
+          <i class="bi bi-file-text"></i>
+          Publicaciones
+        </a>
+
+        <button (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          Cerrar sesión
+        </button>
+
+      } @else {
+
+        <a routerLink="/auth/login">
+          <i class="bi bi-box-arrow-in-right"></i>
+          Login
+        </a>
+
+        <a routerLink="/auth/registro">
+          <i class="bi bi-person-plus"></i>
+          Registro
+        </a>
+
+        <a routerLink="/publicaciones">
+          <i class="bi bi-file-text"></i>
+          Publicaciones
+        </a>
+
+      }
+
+    </div>
+
+  }
+
+</nav>
+
+<router-outlet />

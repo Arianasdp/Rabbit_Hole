@@ -1,0 +1,107 @@
+<div class="page">
+    
+        <div class="order">
+            <div class="select">
+            <div
+                class="selected"
+                data-default="Ordenar por fecha"
+                data-one="Ordenar por likes"
+            >
+                <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="1em"
+                viewBox="0 0 512 512"
+                class="arrow"
+                >
+                <path
+                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
+                ></path>
+                </svg>
+            </div>
+            <div class="options">
+                <div title="all">
+                <input id="all" name="option" type="radio" checked="" />
+                <label class="option" for="all" data-txt="Fecha"></label>
+                </div>
+                <div title="option-1">
+                <input id="option-1" name="option" type="radio" />
+                <label class="option" for="option-1" data-txt="Likes"></label>
+                </div>
+            </div>
+            </div>
+        </div>
+        @if (authService.isLoggedIn()) {
+    <div class="form-wrapper">
+            <div class="form-container">
+                <form [formGroup]="miForm" class="form" (ngSubmit)="accion()">
+                    <div class="field" [class.invalid]="title?.invalid && (title?.dirty || title?.touched)">
+                            <i class="bi bi-cursor-text input-icon"></i>
+
+                            <input type="text"  formControlName="title" placeholder="Título" class="input-field" autocomplete="off"/>
+                        </div>
+
+                        @if (title?.touched && title?.hasError('required')) {
+                            <p class="error">El campo título es obligatorio</p>
+                        }
+
+                        @if (title?.touched && title?.hasError('minlength')) {
+                            <p class="error">Tu título no puede tener menos de 2 caracteres</p>
+                        }
+
+                        @if ((title?.dirty || title?.touched) && title?.hasError('maxlength')) {
+                            <p class="error">Tu título no puede tener más de 50 caracteres</p>
+                        }
+
+                        @if ((title?.dirty || title?.touched) && title?.hasError('pattern')) {
+                            <p class="error">Solo se permiten letras</p>
+                        }
+                    <div class="field" [class.invalid]="description?.invalid && (description?.dirty || description?.touched)">
+                <i class="bi bi-file-text input-icon"></i>
+                <div class="input-count"><p>{{ miForm.get('description')?.value?.length || 0 }}/140</p></div>
+                
+                <textarea
+                    formControlName="description"
+                    placeholder="Descripción"
+                    class="input-field"
+                    maxlength="140"
+                ></textarea>
+                </div>
+
+                @if (description?.touched && description?.hasError('required')) {
+                <p class="error">La descripción es obligatoria</p>
+                }
+
+                @if (description?.dirty && description?.hasError('minlength')) {
+                <p class="error">La descripción debe tener al menos 2 caracteres</p>
+                }
+
+                @if (description?.dirty && description?.hasError('maxlength')) {
+                <p class="error">La descripción no puede superar los 140 caracteres</p>
+                }
+
+                <div class="field">
+                    <i class="bi bi-image input-icon"></i>
+
+                    <input
+                        type="file"
+                        accept="image/*"
+                        (change)="onFileSelected($event)"
+                        class="input-field"
+                    />
+                </div>
+
+                <div class="btn">
+                    <button type="submit" [disabled]="miForm.invalid" class="button1">Compartir</button>
+                </div>
+                    </form>
+            </div>
+        </div>
+    }
+    @for (publicacion of publicaciones(); track publicacion._id) {
+        <app-publicacion
+        [publicacion]="publicacion"
+        (likeChanged)="actualizarPublicacion($event)"
+        (postDeleted)="eliminarPublicacion($event)">
+        </app-publicacion>
+    }
+</div>

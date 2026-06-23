@@ -1,0 +1,31 @@
+<div class="contenedor">
+
+
+<div class="card">
+    <div class="profile-pic">
+        <img [src]="authService.apiUrl + authService.profile()?.img" alt={{authService.profile()?.name}}>
+    </div>
+    <div class="bottom">
+        <div class="content">
+            <span class="name">{{authService.profile()?.name}} {{authService.profile()?.surname}} ({{authService.profile()?.username}})</span>
+            <div class="about-me">
+                <p>Perfil: {{authService.profile()?.profile}}</p>
+                <p>Fecha de nacimiento: {{authService.profile()?.birthdate | date:'dd/MM/yyyy'}}</p>
+                <p>Email: {{authService.profile()?.email}}</p>
+                <p>{{authService.profile()?.description}}</p>
+            </div>
+            
+        </div>
+        <div class="bottom-bottom">
+            <span> Detalles </span>
+        </div>
+    </div>
+</div>
+    @for (publicacion of misPublicaciones(); track publicacion._id) {
+        <app-publicacion
+        [publicacion]="publicacion">
+        </app-publicacion>
+    }
+</div>
+
+

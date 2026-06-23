@@ -1,0 +1,115 @@
+body{
+    background-color: #000000;
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+textarea {
+    field-sizing: content;
+    resize: none;
+}
+
+.navbar {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 2rem;
+}
+
+.logo {
+    position: absolute;
+    left: 2rem;
+    width: 50px;
+    height: 50px;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+
+    background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
+
+    color: white;
+
+    padding: 0.8rem 1rem;
+
+    border-radius: 999px;
+
+    cursor: pointer;
+
+    min-width: 170px;
+
+    transition: 0.2s;
+}
+
+.user-menu:hover {
+    background-image: linear-gradient(to bottom, #201f2c 0%, #6a6792 100%);
+}
+
+.user-menu span {
+    font-size: 0.9rem;
+}
+
+.user-menu img {
+    width: 28px;
+    height: 28px;
+
+    object-fit: cover;
+}
+
+.profile {
+    border-radius: 15px;
+}
+
+.user-menu i {
+    font-size: 0.9rem;
+}
+
+.dropdown {
+    position: absolute;
+
+    top: calc(100% + 8px);
+    right: 2rem;
+
+    width: 180px;
+
+    background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
+}
+
+.dropdown a,
+.dropdown button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 1rem;
+
+    background: transparent;
+    border: none;
+
+    color: white;
+
+    text-decoration: none;
+    cursor: pointer;
+
+    font-size: 0.9rem;
+}
+
+.dropdown a:hover,
+.dropdown button:hover {
+    background: rgba(255,255,255,.05);
+}

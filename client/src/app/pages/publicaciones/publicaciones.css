@@ -1,0 +1,211 @@
+.page{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.form-wrapper {
+    width: 100%;
+    max-width: 600px;
+}
+
+.form-container {
+    background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
+
+    border-radius: 30px;
+    padding: 1.5rem;
+    margin: 1rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+
+    gap: 0.75rem;
+
+    padding: 0.85rem 1rem;
+
+    background: rgba(255, 255, 255, 0.04);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 10px;
+
+    transition: all 0.3s ease;
+}
+
+.field:focus-within {
+    border-color: rgba(120, 120, 255, 0.8);
+    box-shadow: 0 0 10px rgba(120, 120, 255, 0.25);
+}
+
+.field.invalid {
+    border-color: #d14f4f;
+}
+
+.input-icon {
+    color: rgba(255, 255, 255, 0.7);
+    flex-shrink: 0;
+}
+
+.input-count {
+    color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-field {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+
+    color: white;
+    font-size: 0.95rem;
+}
+
+.input-field::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.error {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+}
+
+.btn {
+    margin-top: 0.5rem;
+}
+
+.button1 {
+    width: 100%;
+
+    padding: 0.85rem;
+
+    border: none;
+    border-radius: 15px;
+
+    background: #00000025;
+    color: white;
+
+    font-size: 1rem;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.button1:hover:not(:disabled) {
+    background: #181a38;
+}
+
+.button1:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* options dropdown */
+.select {
+  width: fit-content;
+  cursor: pointer;
+  position: relative;
+  transition: 300ms;
+  color: white;
+  overflow: hidden;
+}
+
+.selected {
+  background-color: #2a2f3b;
+  padding: 5px;
+  margin-bottom: 3px;
+  border-radius: 5px;
+  position: relative;
+  z-index: 100000;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.arrow {
+  position: relative;
+  right: 0px;
+  height: 10px;
+  transform: rotate(-90deg);
+  width: 25px;
+  fill: white;
+  z-index: 100000;
+  transition: 300ms;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #2a2f3b;
+  position: relative;
+  top: -100px;
+  opacity: 0;
+  transition: 300ms;
+}
+
+.select:hover > .options {
+  opacity: 1;
+  top: 0;
+}
+
+.select:hover > .selected .arrow {
+  transform: rotate(0deg);
+}
+
+.option {
+  border-radius: 5px;
+  padding: 5px;
+  transition: 300ms;
+  background-color: #2a2f3b;
+  width: 150px;
+  font-size: 15px;
+}
+.option:hover {
+  background-color: #323741;
+}
+
+.options input[type="radio"] {
+  display: none;
+}
+
+.options label {
+  display: inline-block;
+}
+.options label::before {
+  content: attr(data-txt);
+}
+
+.options input[type="radio"]:checked + label {
+  display: none;
+}
+
+.options input[type="radio"]#all:checked + label {
+  display: none;
+}
+
+.select:has(.options input[type="radio"]#all:checked) .selected::before {
+  content: attr(data-default);
+}
+.select:has(.options input[type="radio"]#option-1:checked) .selected::before {
+  content: attr(data-one);
+}
+.select:has(.options input[type="radio"]#option-2:checked) .selected::before {
+  content: attr(data-two);
+}
+.select:has(.options input[type="radio"]#option-3:checked) .selected::before {
+  content: attr(data-three);
+}
