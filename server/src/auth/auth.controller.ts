@@ -16,8 +16,15 @@ import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import { AuthService } from './auth.service';
 import { LoginUsuarioDto } from '../usuarios/dto/login-usuario.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { multerOptions } from '../common/multer/multer.config';
 import { AuthGuard } from '../common/guards/auth-verification.guard';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+
+cloudinary.config({
+  cloud_name: 'dtpjfa6pc',
+  api_key: '398759611723871',
+  api_secret: 'OMRwLYKMhpHsFlf7NILWqI51VNk',
+});
 
 @Controller('auth')
 export class AuthController {
@@ -26,17 +33,12 @@ export class AuthController {
   @Post('registro')
   @UseInterceptors(
     FileInterceptor('img', {
-      ...multerOptions,
-      fileFilter: (req, file, cb) => {
-        if (!file.mimetype.match(/^image\/(jpeg|png|gif|webp)$/)) {
-          return cb(
-            new BadRequestException('Solo se permiten imágenes'),
-            false,
-          );
-        }
-
-        cb(null, true);
-      },
+      storage: new CloudinaryStorage({
+        cloudinary: cloudinary,
+        params: {
+          public_id: (req, file) => `IMG_${Date.now()}`,
+        },
+      }),
     }),
   )
   registrar(
@@ -52,8 +54,8 @@ export class AuthController {
     )
     file: Express.Multer.File,
   ) {
-    console.log(file);
-    return this.authService.registrar(createUsuarioDto, file);
+    console.log(file.path);
+    return this.authService.registrar(createUsuarioDto, file.path);
   }
 
   @Post('login')

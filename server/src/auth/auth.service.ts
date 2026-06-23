@@ -27,17 +27,14 @@ export class AuthService {
     this.jwtSecret = this.configService.get<string>('SUPER_SECRET_KEY')!;
   }
 
-  async registrar(
-    createUsuarioDto: CreateUsuarioDto,
-    file: Express.Multer.File,
-  ) {
+  async registrar(createUsuarioDto: CreateUsuarioDto, filePath: string) {
     const hash = await bcrypt.hash(createUsuarioDto.password, 10);
 
     createUsuarioDto.password = hash;
 
     const usuarioCreado = await this.usuariosService.create(
       createUsuarioDto,
-      `/uploads/${file.filename}`,
+      filePath,
     );
 
     console.log('img: ', usuarioCreado.img);

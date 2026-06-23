@@ -20,8 +20,15 @@ import { PublicacionesService } from './publicaciones.service';
 import { AuthGuard } from '../common/guards/auth-verification.guard';
 import * as express from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { multerOptions } from '../common/multer/multer.config';
 import { OptionalAuthGuard } from '../common/guards/optionalJWT.guard';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+
+cloudinary.config({
+  cloud_name: 'dtpjfa6pc',
+  api_key: '398759611723871',
+  api_secret: 'OMRwLYKMhpHsFlf7NILWqI51VNk',
+});
 
 @Controller('publicaciones')
 export class PublicacionesController {
@@ -31,16 +38,12 @@ export class PublicacionesController {
   @Post()
   @UseInterceptors(
     FileInterceptor('img', {
-      ...multerOptions,
-      fileFilter: (req, file, cb) => {
-        if (!file.mimetype.match(/^image\/(jpeg|png|gif|webp)$/)) {
-          return cb(
-            new BadRequestException('Solo se permiten imágenes'),
-            false,
-          );
-        }
-        cb(null, true);
-      },
+      storage: new CloudinaryStorage({
+        cloudinary: cloudinary,
+        params: {
+          public_id: (req, file) => `IMG_${Date.now()}`,
+        },
+      }),
     }),
   )
   crearPublicacion(
@@ -58,13 +61,16 @@ export class PublicacionesController {
     )
     file?: Express.Multer.File,
   ) {
-    console.log(file);
+    let filePath = '';
+    if (file) {
+      filePath = file.path;
+    }
     console.log(req['user']);
     console.log(createPublicacionDto);
     return this.publicacionesService.create(
       createPublicacionDto,
       req['user'],
-      file,
+      filePath,
     );
   }
 

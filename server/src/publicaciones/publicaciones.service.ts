@@ -13,15 +13,15 @@ export class PublicacionesService {
   async create(
     createPublicacionDto: CreatePublicacionDto,
     user: any,
-    file?: Express.Multer.File,
+    filePath?: string,
   ) {
     const datosPublicacion: any = {
       ...createPublicacionDto,
       author: user.sub,
     };
 
-    if (file) {
-      datosPublicacion.img = `/uploads/${file.filename}`;
+    if (filePath) {
+      datosPublicacion.img = filePath;
     }
 
     const publicacionCreada =
