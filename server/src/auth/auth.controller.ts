@@ -14,10 +14,10 @@ import {
 } from '@nestjs/common';
 import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import { AuthService } from './auth.service';
-import { LoginUsuarioDto } from 'src/usuarios/dto/login-usuario.dto';
+import { LoginUsuarioDto } from '../usuarios/dto/login-usuario.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { multerOptions } from 'src/common/multer/multer.config';
-import { AuthGuard } from 'src/common/guards/auth-verification.guard';
+import { multerOptions } from '../common/multer/multer.config';
+import { AuthGuard } from '../common/guards/auth-verification.guard';
 
 @Controller('auth')
 export class AuthController {

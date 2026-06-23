@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import * as bcrypt from 'bcrypt';
-import { UsuariosService } from 'src/usuarios/usuarios.service';
-import { LoginUsuarioDto } from 'src/usuarios/dto/login-usuario.dto';
+import { UsuariosService } from '../usuarios/usuarios.service';
+import { LoginUsuarioDto } from '../usuarios/dto/login-usuario.dto';
 import { ConfigService } from '@nestjs/config';
 import {
   sign,
@@ -12,7 +12,7 @@ import {
   JwtPayload,
 } from 'jsonwebtoken';
 import { HydratedDocument } from 'mongoose';
-import { Usuario } from 'src/usuarios/entities/usuario.entity';
+import { Usuario } from '../usuarios/entities/usuario.entity';
 
 export type UsuarioDocument = HydratedDocument<Usuario>;
 

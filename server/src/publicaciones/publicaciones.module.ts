@@ -3,8 +3,8 @@ import { PublicacionesService } from './publicaciones.service';
 import { PublicacionesController } from './publicaciones.controller';
 import { Publicacion, publicacionSchema } from './entities/publicacion.entity';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from 'src/auth/auth.module';
-import { AuthGuard } from 'src/common/guards/auth-verification.guard';
+import { AuthModule } from '../auth/auth.module';
+import { AuthGuard } from '../common/guards/auth-verification.guard';
 
 @Module({
   imports: [

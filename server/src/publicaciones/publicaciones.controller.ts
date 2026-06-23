@@ -17,11 +17,11 @@ import {
 } from '@nestjs/common';
 import { CreatePublicacionDto } from './dto/create-publicacion.dto';
 import { PublicacionesService } from './publicaciones.service';
-import { AuthGuard } from 'src/common/guards/auth-verification.guard';
+import { AuthGuard } from '../common/guards/auth-verification.guard';
 import * as express from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { multerOptions } from 'src/common/multer/multer.config';
-import { OptionalAuthGuard } from 'src/common/guards/optionalJWT.guard';
+import { multerOptions } from '../common/multer/multer.config';
+import { OptionalAuthGuard } from '../common/guards/optionalJWT.guard';
 
 @Controller('publicaciones')
 export class PublicacionesController {

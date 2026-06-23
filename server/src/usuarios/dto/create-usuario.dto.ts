@@ -7,7 +7,7 @@ import {
   MaxLength,
   Validate,
 } from 'class-validator';
-import { ValidAgeConstraint } from 'src/validators/valid-age.validator';
+import { ValidAgeConstraint } from '../../validators/valid-age.validator';
 
 export class CreateUsuarioDto {
   @IsOptional()
