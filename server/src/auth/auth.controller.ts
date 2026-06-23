@@ -12,7 +12,7 @@ import {
   Get,
   Req,
 } from '@nestjs/common';
-import { CreateUsuarioDto } from 'src/usuarios/dto/create-usuario.dto';
+import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import { AuthService } from './auth.service';
 import { LoginUsuarioDto } from 'src/usuarios/dto/login-usuario.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
