@@ -3,7 +3,7 @@
 
     <div class="profile-info">
         <div class="profile-left">
-            <img class="user" [src]="publicacionesService.apiUrl + publicacion().author.img" alt="username">
+            <img class="user" [src]="publicacion().author.img" alt="username">
             <span class="by-name">{{ publicacion().author.username }}</span>
         </div>
 
@@ -44,7 +44,7 @@
 
         @if(publicacion().img) {
             <div class="card-image">
-                <img class="user" [src]="publicacionesService.apiUrl + publicacion().img" alt="publicacion">
+                <img class="user" [src]="publicacion().img" alt="publicacion">
             </div>
         }
         
