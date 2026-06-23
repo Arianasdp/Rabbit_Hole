@@ -8,7 +8,7 @@
 
     @if (authService.isLoggedIn()) {
 
-      <img class="profile" [src]="authService.apiUrl + authService.profile()?.img" alt="rabbithole">
+      <img class="profile" [src]="authService.profile()?.img" alt="rabbithole">
 
       <span>{{ authService.profile()?.username }}</span>
 
