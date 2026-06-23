@@ -7,10 +7,6 @@ import { ConfigModule } from '@nestjs/config';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from './auth/auth.module';
 import { PublicacionesModule } from './publicaciones/publicaciones.module';
-import { MulterModule } from '@nestjs/platform-express';
-import { multerOptions } from './common/multer/multer.config';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 
 @Module({
   imports: [
@@ -19,11 +15,6 @@ import { join } from 'path';
     UsuariosModule,
     AuthModule,
     PublicacionesModule,
-    MulterModule.register(multerOptions),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
-      serveRoot: '/uploads',
-    }),
   ],
   controllers: [AppController],
   providers: [
