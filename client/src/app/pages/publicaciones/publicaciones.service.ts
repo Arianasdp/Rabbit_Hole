@@ -29,8 +29,8 @@ export class PublicacionesService {
         });
     }
 
-    cargar() {
-    this.find().subscribe({
+    cargar(likes?: string) {
+    this.find(likes).subscribe({
         next: publicaciones => {
             this.publicaciones.set(publicaciones);
         }

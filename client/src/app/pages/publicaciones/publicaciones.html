@@ -19,12 +19,12 @@
                 </svg>
             </div>
             <div class="options">
-                <div title="all">
-                <input id="all" name="option" type="radio" checked="" />
+                <div title="fecha">
+                <input id="all" name="option" type="radio" [checked]="sort() === 'fecha'" (change)="sort.set('fecha')"/>
                 <label class="option" for="all" data-txt="Fecha"></label>
                 </div>
-                <div title="option-1">
-                <input id="option-1" name="option" type="radio" />
+                <div title="likes">
+                <input id="option-1" name="option" type="radio" [checked]="sort() === 'likes'" (change)="sort.set('likes')"/>
                 <label class="option" for="option-1" data-txt="Likes"></label>
                 </div>
             </div>

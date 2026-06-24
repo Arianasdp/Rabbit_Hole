@@ -102,24 +102,55 @@ export class PublicacionesService {
     ]);
   }
 
+  // async toggleLike(id: string, usuarioId: string) {
+  //   const publicacion = await this.PublicacionModel.findById(id);
+  //   console.log(publicacion);
+
+  //   if (publicacion) {
+  //     const tieneLike = publicacion.likes.includes(usuarioId);
+
+  //     if (tieneLike) {
+  //       return this.PublicacionModel.findByIdAndUpdate(
+  //         id,
+  //         {
+  //           $pull: { likes: usuarioId },
+  //         },
+  //         { returnDocument: 'after' },
+  //       ).populate('author');
+  //     }
+
+  //     return this.PublicacionModel.findByIdAndUpdate(
+  //       id,
+  //       {
+  //         $addToSet: { likes: usuarioId },
+  //       },
+  //       { returnDocument: 'after' },
+  //     ).populate('author');
+  //   }
+  // }
+
   async toggleLike(id: string, usuarioId: string) {
     const publicacion = await this.PublicacionModel.findById(id);
     console.log(publicacion);
 
-    if (publicacion) {
-      const tieneLike = publicacion.likes.includes(usuarioId);
+    if (!publicacion) {
+      return null;
+    }
 
-      if (tieneLike) {
-        return this.PublicacionModel.findByIdAndUpdate(
-          id,
-          {
-            $pull: { likes: usuarioId },
-          },
-          { returnDocument: 'after' },
-        ).populate('author');
-      }
+    const tieneLike = publicacion.likes.includes(usuarioId);
 
-      return this.PublicacionModel.findByIdAndUpdate(
+    let publicacionActualizada;
+
+    if (tieneLike) {
+      publicacionActualizada = await this.PublicacionModel.findByIdAndUpdate(
+        id,
+        {
+          $pull: { likes: usuarioId },
+        },
+        { returnDocument: 'after' },
+      ).populate('author');
+    } else {
+      publicacionActualizada = await this.PublicacionModel.findByIdAndUpdate(
         id,
         {
           $addToSet: { likes: usuarioId },
@@ -127,17 +158,13 @@ export class PublicacionesService {
         { returnDocument: 'after' },
       ).populate('author');
     }
+
+    return {
+      ...publicacionActualizada.toObject(),
+      likesCount: publicacionActualizada.likes.length,
+      likedByUser: publicacionActualizada.likes.includes(usuarioId),
+    };
   }
-
-  //   async deletPost(publiId: string, userId: string) {
-  //     const chequear = await this.PublicacionModel.findById(publiId);
-
-  //     if (new Types.ObjectId(userId) === chequear?.author._id) {
-  //       return await this.PublicacionModel.findByIdAndUpdate(publiId, {
-  //         $set: { deleted: true },
-  //       });
-  //     }
-  //   }
 
   async remove(id: string, userId: string) {
     const publicacion = await this.PublicacionModel.findById(id);

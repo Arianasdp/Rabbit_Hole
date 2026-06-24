@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { Publicacion } from './publicacion/publicacion';
 import { PublicacionesService } from './publicaciones.service';
 import { IPublicacion } from './publicacion/publicacion.interface';
@@ -14,7 +14,7 @@ import { AuthService } from '../../auth/auth.service';
 export class Publicaciones {
 
   // publicaciones = signal<IPublicacion[]>([]);
-  
+  sort = signal<'fecha' | 'likes'>('fecha');
   publicacionesService = inject(PublicacionesService);
   miForm: FormGroup;
 
@@ -27,6 +27,9 @@ export class Publicaciones {
       img: [null]
     });
     console.log(this.publicaciones);
+    effect(() => {
+    this.publicacionesService.cargar(this.sort());
+  });
   }
 
   publicaciones = this.publicacionesService.publicaciones;
@@ -40,15 +43,6 @@ export class Publicaciones {
   }
 
   ngOnInit() {
-    // this.publicacionesService.find().subscribe({
-    //   next: publicaciones => {
-    //     this.publicaciones.set(publicaciones);
-    //     console.log(publicaciones);
-    //   },
-    //   error: err => {
-    //     console.error(err);
-    //   }
-    // });
     this.publicacionesService.cargar();
   }
 
@@ -72,7 +66,8 @@ export class Publicaciones {
     try {
 
       await this.publicacionesService.crearPost(formData);
-      console.log("publciación correctamente creada");
+      this.publicacionesService.cargar(this.sort());
+      console.log("publicación correctamente creada");
 
     } catch(error: any) {
       console.log(error);
@@ -99,6 +94,7 @@ export class Publicaciones {
           : publi
       )
     );
+    console.log(publiActualizada);
   }
 
   eliminarPublicacion(id: string) {

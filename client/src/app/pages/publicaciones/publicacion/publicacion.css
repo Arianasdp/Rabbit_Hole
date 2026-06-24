@@ -76,6 +76,13 @@ hr {
     display: block;
 }
 
+.besides {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /* #heart {
     display: none;
 }

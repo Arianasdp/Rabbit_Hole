@@ -23,16 +23,6 @@ export class Publicacion {
 
   @Output() postDeleted = new EventEmitter<string>();
 
-  // toggleLike() {
-  //   if (this.authService.isLoggedIn())
-  //   {
-  //     this.publicacionesService
-  //     .toggleLike(this.publicacion()._id)
-  //     .subscribe(publiActualizada => {
-  //       this.likeChanged.emit(publiActualizada);
-  //     });
-  //   }
-  // }
   animarLikes = false;
 
   toggleLike() {

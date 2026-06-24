@@ -134,6 +134,15 @@
   justify-content: space-between;
 }
 
+.selected::before {
+  content: attr(data-default);
+}
+
+.select:has(.options input[type="radio"]#option-1:checked)
+.selected::before {
+  content: attr(data-one);
+}
+
 .arrow {
   position: relative;
   right: 0px;
@@ -197,15 +206,9 @@
   display: none;
 }
 
-.select:has(.options input[type="radio"]#all:checked) .selected::before {
+/* .select:has(.options input[type="radio"]#all:checked) .selected::before {
   content: attr(data-default);
 }
 .select:has(.options input[type="radio"]#option-1:checked) .selected::before {
   content: attr(data-one);
-}
-.select:has(.options input[type="radio"]#option-2:checked) .selected::before {
-  content: attr(data-two);
-}
-.select:has(.options input[type="radio"]#option-3:checked) .selected::before {
-  content: attr(data-three);
-}
+} */
