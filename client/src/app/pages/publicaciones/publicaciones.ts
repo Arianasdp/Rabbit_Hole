@@ -67,6 +67,7 @@ export class Publicaciones {
 
       await this.publicacionesService.crearPost(formData);
       this.publicacionesService.cargar(this.sort());
+      this.miForm.reset();
       console.log("publicación correctamente creada");
 
     } catch(error: any) {
