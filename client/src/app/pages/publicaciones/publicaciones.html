@@ -1,35 +1,38 @@
 <div class="page">
-    
         <div class="order">
-            <div class="select">
-            <div
-                class="selected"
-                data-default="Ordenar por fecha"
-                data-one="Ordenar por likes"
-            >
-                <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="1em"
-                viewBox="0 0 512 512"
-                class="arrow"
-                >
-                <path
-                    d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"
-                ></path>
-                </svg>
-            </div>
-            <div class="options">
-                <div title="fecha">
-                <input id="all" name="option" type="radio" [checked]="sort() === 'fecha'" (change)="sort.set('fecha')"/>
-                <label class="option" for="all" data-txt="Fecha"></label>
-                </div>
-                <div title="likes">
-                <input id="option-1" name="option" type="radio" [checked]="sort() === 'likes'" (change)="sort.set('likes')"/>
-                <label class="option" for="option-1" data-txt="Likes"></label>
-                </div>
-            </div>
-            </div>
+            <div class="ordenamiento">
+            <button class="deleteButton" (click)="sort.set('fecha')">
+            <i class="bi bi-calendar-check white"></i>
+
+            <span class="tooltip">Fecha</span>
+            </button>
+            <button class="deleteButton" (click)="sort.set('likes')">
+            <i class="bi bi-calendar-heart white"></i>
+
+            <span class="tooltip">Likes</span>
+            </button>
         </div>
+
+        <div class="group">
+        <svg viewBox="0 0 24 24" aria-hidden="true" class="search-icon">
+            <g>
+            <path
+                d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
+            ></path>
+            </g>
+        </svg>
+
+        <input
+            id="query"
+            class="input"
+            type="search"
+            placeholder="Filtrá por user..."
+            name="searchbar"
+            (input)="filtrarUsuario($event)"
+        />
+        </div>
+        </div>
+
         @if (authService.isLoggedIn()) {
     <div class="form-wrapper">
             <div class="form-container">
@@ -56,16 +59,19 @@
                             <p class="error">Solo se permiten letras</p>
                         }
                     <div class="field" [class.invalid]="description?.invalid && (description?.dirty || description?.touched)">
-                <i class="bi bi-file-text input-icon"></i>
-                <div class="input-count"><p>{{ miForm.get('description')?.value?.length || 0 }}/140</p></div>
+                        
+                            <i class="bi bi-file-text input-icon"></i>
+                            <div class="input-count">
+                                <p>{{ miForm.get('description')?.value?.length || 0 }}/140</p>
+                            </div>
                 
-                <textarea
-                    formControlName="description"
-                    placeholder="Descripción"
-                    class="input-field"
-                    maxlength="140"
-                ></textarea>
-                </div>
+                        <textarea
+                            formControlName="description"
+                            placeholder="Descripción"
+                            class="input-field"
+                            maxlength="140"
+                        ></textarea>
+                    </div>
 
                 @if (description?.touched && description?.hasError('required')) {
                 <p class="error">La descripción es obligatoria</p>

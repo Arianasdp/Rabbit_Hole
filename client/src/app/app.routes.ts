@@ -1,12 +1,13 @@
 import { Routes } from '@angular/router';
 import { estaLogueadoGuard } from './guards/esta-logueado-guard';
 import { authVerificationGuard } from './guards/auth-verification-guard';
+import { homeGuard } from './guards/home.guard';
 
 export const routes: Routes = [
     {
         path: "",
-        redirectTo: "publicaciones",
-        pathMatch: 'full'
+        canActivate: [homeGuard],
+        children: []
     },
     {
         path: "publicaciones",

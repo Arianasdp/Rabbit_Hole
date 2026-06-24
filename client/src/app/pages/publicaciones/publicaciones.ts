@@ -4,6 +4,8 @@ import { PublicacionesService } from './publicaciones.service';
 import { IPublicacion } from './publicacion/publicacion.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-publicaciones',
@@ -15,6 +17,8 @@ export class Publicaciones {
 
   // publicaciones = signal<IPublicacion[]>([]);
   sort = signal<'fecha' | 'likes'>('fecha');
+  author = signal('');
+  private authorSearch$ = new Subject<string>();
   publicacionesService = inject(PublicacionesService);
   miForm: FormGroup;
 
@@ -28,8 +32,11 @@ export class Publicaciones {
     });
     console.log(this.publicaciones);
     effect(() => {
-    this.publicacionesService.cargar(this.sort());
-  });
+      this.publicacionesService.cargar(this.sort(), this.author());
+    });
+    this.authorSearch$.pipe(debounceTime(400)).subscribe(valor => {
+      this.author.set(valor);
+    });
   }
 
   publicaciones = this.publicacionesService.publicaciones;
@@ -102,5 +109,10 @@ export class Publicaciones {
     this.publicaciones.update(publicaciones =>
       publicaciones.filter(publi => publi._id !== id)
     );
+  }
+
+  filtrarUsuario(event: Event) {
+    const valor = (event.target as HTMLInputElement).value;
+    this.authorSearch$.next(valor);
   }
 }

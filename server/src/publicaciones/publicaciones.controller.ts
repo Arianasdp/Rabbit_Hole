@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -20,7 +19,6 @@ import { PublicacionesService } from './publicaciones.service';
 import { AuthGuard } from '../common/guards/auth-verification.guard';
 import * as express from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { OptionalAuthGuard } from '../common/guards/optionalJWT.guard';
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 

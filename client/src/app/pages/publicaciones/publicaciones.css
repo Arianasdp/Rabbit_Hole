@@ -56,9 +56,6 @@
 
 .input-count {
     color: rgba(255, 255, 255, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .input-field {
@@ -119,13 +116,14 @@
   transition: 300ms;
   color: white;
   overflow: hidden;
+  border-radius: 15px;
 }
 
 .selected {
   background-color: #2a2f3b;
-  padding: 5px;
+  padding: 10px;
   margin-bottom: 3px;
-  border-radius: 5px;
+  border-radius: 15px;
   position: relative;
   z-index: 100000;
   font-size: 15px;
@@ -206,9 +204,127 @@
   display: none;
 }
 
-/* .select:has(.options input[type="radio"]#all:checked) .selected::before {
-  content: attr(data-default);
+/* search*/
+.group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 190px;
 }
-.select:has(.options input[type="radio"]#option-1:checked) .selected::before {
-  content: attr(data-one);
-} */
+
+.input {
+  font-family: "Montserrat", sans-serif;
+  width: 100%;
+  height: 45px;
+  padding-left: 2.5rem;
+  box-shadow: 0 0 0 1.5px #2b2c37, 0 0 25px -17px #000;
+  border: 0;
+  border-radius: 12px;
+  background-color: #16171d;
+  outline: none;
+  color: #bdbecb;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  cursor: text;
+  z-index: 0;
+}
+
+.input::placeholder {
+  color: #bdbecb;
+}
+
+.input:hover {
+  box-shadow: 0 0 0 2.5px #2f303d, 0px 0px 25px -15px #000;
+}
+
+.input:active {
+  transform: scale(0.95);
+}
+
+.input:focus {
+  box-shadow: 0 0 0 2.5px #2f303d;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  fill: #bdbecb;
+  width: 1rem;
+  height: 1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* options */
+.deleteButton {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.deleteButton:hover {
+  background-color: #6a679250;
+  overflow: visible;
+}
+
+.deleteButton:active {
+  transform: scale(0.98);
+}
+.tooltip {
+  --tooltip-color: rgb(41, 41, 41);
+  position: absolute;
+  top: -40px;
+  background-color: var(--tooltip-color);
+  color: white;
+  border-radius: 5px;
+  font-size: 12px;
+  padding: 8px 12px;
+  font-weight: 600;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.105);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: all 0.5s;
+}
+.tooltip::before {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  content: "";
+  background-color: var(--tooltip-color);
+  bottom: -10%;
+}
+.deleteButton:hover .tooltip {
+  opacity: 1;
+}
+
+.white{
+  color: white;
+}
+
+.order{
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.ordenamiento {
+  width: 100px;
+  display: flex;
+  justify-content: space-between;
+}
