@@ -10,7 +10,8 @@ export const routes: Routes = [
     },
     {
         path: "publicaciones",
-        loadComponent: () => import('./pages/publicaciones/publicaciones').then((m) => m.Publicaciones)
+        loadComponent: () => import('./pages/publicaciones/publicaciones').then((m) => m.Publicaciones),
+        canActivate: [estaLogueadoGuard]
     },
     {
         path: "mi-perfil",

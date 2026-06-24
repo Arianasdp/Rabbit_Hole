@@ -23,7 +23,8 @@
 </div>
     @for (publicacion of misPublicaciones(); track publicacion._id) {
         <app-publicacion
-        [publicacion]="publicacion">
+        [publicacion]="publicacion"
+        (postDeleted)="eliminarPublicacion($event)">
         </app-publicacion>
     }
 </div>

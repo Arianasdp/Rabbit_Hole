@@ -26,7 +26,14 @@ export class PublicacionesService {
 
     const publicacionCreada =
       await this.PublicacionModel.create(datosPublicacion);
-    return publicacionCreada;
+
+    const resultado = await this.PublicacionModel.findById(
+      publicacionCreada._id,
+    ).populate('author');
+
+    console.log(JSON.stringify(resultado, null, 2));
+
+    return resultado;
   }
 
   async find(

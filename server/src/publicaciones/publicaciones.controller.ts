@@ -74,7 +74,7 @@ export class PublicacionesController {
     );
   }
 
-  @UseGuards(OptionalAuthGuard)
+  @UseGuards(AuthGuard)
   @Get()
   traerPublicaciones(
     @Req() req: Request,
@@ -89,6 +89,7 @@ export class PublicacionesController {
       offset,
       limit,
     });
+    console.log('AUTHOR:', author);
     const userId = req['user']?.sub;
     return this.publicacionesService.find(sort, author, offset, limit, userId);
   }

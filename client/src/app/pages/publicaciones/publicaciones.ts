@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Publicacion } from './publicacion/publicacion';
 import { PublicacionesService } from './publicaciones.service';
 import { IPublicacion } from './publicacion/publicacion.interface';
@@ -13,12 +13,13 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class Publicaciones {
 
-  publicaciones = signal<IPublicacion[]>([]);
-
+  // publicaciones = signal<IPublicacion[]>([]);
+  
+  publicacionesService = inject(PublicacionesService);
   miForm: FormGroup;
 
   constructor(
-    private publicacionesService: PublicacionesService, private fb: FormBuilder, public authService: AuthService
+    private fb: FormBuilder, public authService: AuthService
   ) {
     this.miForm = this.fb.group({
       title: ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
@@ -27,6 +28,8 @@ export class Publicaciones {
     });
     console.log(this.publicaciones);
   }
+
+  publicaciones = this.publicacionesService.publicaciones;
 
   get title() {
     return this.miForm.get('title');
@@ -37,20 +40,42 @@ export class Publicaciones {
   }
 
   ngOnInit() {
-    this.publicacionesService.find().subscribe({
-      next: publicaciones => {
-        this.publicaciones.set(publicaciones);
-        console.log(publicaciones);
-      },
-      error: err => {
-        console.error(err);
-      }
-    });
+    // this.publicacionesService.find().subscribe({
+    //   next: publicaciones => {
+    //     this.publicaciones.set(publicaciones);
+    //     console.log(publicaciones);
+    //   },
+    //   error: err => {
+    //     console.error(err);
+    //   }
+    // });
+    this.publicacionesService.cargar();
   }
 
   async accion() {
     if (this.miForm.invalid) {
       return;
+    }
+
+    const datos = this.miForm.getRawValue();
+    
+    const formData = new FormData();
+
+    Object.entries(datos).forEach(([key, value]) => {
+      if (value instanceof File) {
+        formData.append(key, value);
+      } else if (value != null) {
+        formData.append(key, String(value));
+      }
+    });
+
+    try {
+
+      await this.publicacionesService.crearPost(formData);
+      console.log("publciación correctamente creada");
+
+    } catch(error: any) {
+      console.log(error);
     }
   }
 

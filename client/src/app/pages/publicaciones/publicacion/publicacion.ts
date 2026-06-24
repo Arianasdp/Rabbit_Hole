@@ -52,17 +52,6 @@ export class Publicacion {
     }
   }
 
-  // deleteMyPost() {
-  //   if (this.authService.isLoggedIn()) {
-  //     try {
-  //       this.publicacionesService.deletePost(this.publicacion()._id);
-  //     }catch (error: any) {
-
-  //     console.log(error);
-  //   }
-      
-  //   }
-  // }
   deleteMyPost() {
     if (this.authService.isLoggedIn()) {
       this.publicacionesService

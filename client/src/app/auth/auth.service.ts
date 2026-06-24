@@ -34,6 +34,25 @@ export class AuthService {
     if (payload) {
       this.usuario.set(payload);
       console.log(this.usuario);
+      this.restaurarSesion();
+    }
+  }
+
+  async restaurarSesion() {
+    const token = this.getToken();
+
+    if (!token) {
+      return;
+    }
+
+    try {
+      const user = await firstValueFrom(
+        this.http.get<Usuario>(`${this.apiUrl}/auth/me`)
+      );
+
+      this.profile.set(user);
+    } catch {
+      localStorage.removeItem('token');
     }
   }
 
@@ -97,10 +116,9 @@ export class AuthService {
       this.usuario.set(payload);
 
       const user = await firstValueFrom(
-      this.http.get<Usuario>(`${this.apiUrl}/auth/me`)
-    );
+      this.http.get<Usuario>(`${this.apiUrl}/auth/me`));
 
-    this.profile.set(user);
+      this.profile.set(user);
 
       return respuesta;
 

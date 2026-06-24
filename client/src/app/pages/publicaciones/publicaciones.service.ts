@@ -1,17 +1,22 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { computed, inject, Injectable, signal } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { IPublicacion } from "./publicacion/publicacion.interface";
+import { firstValueFrom } from "rxjs";
+import { AuthService } from "../../auth/auth.service";
 
 @Injectable({
     providedIn: 'root'
 })
 export class PublicacionesService {
 
+    authService = inject(AuthService);
     // apiUrl = environment.apiUrl;
     apiUrl = 'https://rabbit-hole-backend.onrender.com';
 
     constructor(private http: HttpClient) {} 
+
+    publicaciones = signal<IPublicacion[]>([]);
 
     find(sort?: string, author?: string, offset = 0, limit = 10) {
         return this.http.get<IPublicacion[]>(`${this.apiUrl}/publicaciones`, {
@@ -20,6 +25,14 @@ export class PublicacionesService {
             author: author ?? '',
             offset,
             limit
+        }
+        });
+    }
+
+    cargar() {
+    this.find().subscribe({
+        next: publicaciones => {
+            this.publicaciones.set(publicaciones);
         }
         });
     }
@@ -36,5 +49,20 @@ export class PublicacionesService {
             `${this.apiUrl}/publicaciones/${id}`,
             {}
         );
+    }
+
+    async crearPost(datos: FormData) {
+        const nueva =  await firstValueFrom(this.http.post<IPublicacion>(`${this.apiUrl}/publicaciones`, datos));
+
+        console.log('POST RESPONSE', nueva);
+        console.log('AUTHOR', nueva.author);
+
+        this.publicaciones.update(actuales => [
+            nueva,
+            ...actuales
+        ]);
+
+        console.log('POST RESPONSE', nueva);
+        console.log('AUTHOR', nueva.author);
     }
 }
