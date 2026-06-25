@@ -84,22 +84,6 @@ export class AuthService {
     }
   }
 
-  // async registro(datos: RegistroDto) {
-  //   const respuesta = await firstValueFrom(
-  //     this.http.post<{ jwt: string }>(
-  //       `${this.apiUrl}/auth/registro`,
-  //       datos
-  //     )
-  //   );
-
-  //   this.setToken(respuesta.jwt);
-
-  //   const payload = this.getPayload();
-
-  //   this.usuario.set(payload);
-
-  //   return respuesta;
-  // }
   async registro(datos: RegistroDto | FormData) {
     try {
       const respuesta = await firstValueFrom(
