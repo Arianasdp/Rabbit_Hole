@@ -117,8 +117,28 @@ export class Publicacion {
   }
 
   async accion(){
-    this.miForm.reset();
-    console.log("probando front post comments");
+    if (this.miForm.invalid) {
+      return;
+    }
+
+    const datos = this.miForm.getRawValue();
+    
+    const formData = new FormData();
+
+    Object.entries(datos).forEach(([key, value]) => {
+        formData.append(key, String(value));
+    });
+
+    try {
+      await this.comentariosService.crearComentario(this.publicacion()._id, datos);
+      this.miForm.reset();
+      this.cargarComentarios(this.publicacion()._id);
+      console.log("probando front post comments");
+    }
+    catch(error) {
+      console.log(error);
+    }
+    
   }
 
 }

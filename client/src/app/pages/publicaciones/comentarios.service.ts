@@ -27,7 +27,7 @@ export class ComentariosService {
         }
 
     async crearComentario(id: string, datos: FormData) {
-        const nueva =  await firstValueFrom(this.http.post<IComentario>(`${this.apiUrl}/publicaciones/${id}/comentarios`, datos));
+        await firstValueFrom(this.http.post<IComentario>(`${this.apiUrl}/publicaciones/${id}/comentarios`, datos));
     
         // this.comentarios.update(actuales => [
         //     nueva,

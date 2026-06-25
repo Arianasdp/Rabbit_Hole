@@ -92,7 +92,6 @@ hr {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  cursor: pointer;
 }
 
 .like {
@@ -106,6 +105,7 @@ hr {
   width: 28px;
   height: 28px;
   transition: fill 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
 }
 
 .like-count {
@@ -235,10 +235,10 @@ hr {
   display: flex;
   align-items: center;
   padding-left: 20px;
-  border-bottom: 1px solid #f1f1f1;
+  border-bottom: 1px solid #47484b;
   font-weight: 700;
   font-size: 13px;
-  color: #47484b;
+  color: white;
 }
 
 .title-comment::after {
@@ -247,7 +247,7 @@ hr {
   height: 1px;
   position: absolute;
   bottom: -1px;
-  background-color: #47484b;
+  background-color: white;
 }
 
 /* form reply */
