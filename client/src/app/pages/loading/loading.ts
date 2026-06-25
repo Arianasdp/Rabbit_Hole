@@ -6,4 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './loading.html',
   styleUrl: './loading.css',
 })
-export class Loading {}
+export class Loading {
+
+}

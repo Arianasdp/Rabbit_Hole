@@ -1,0 +1,122 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, .5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1;
+}
+
+.card {
+    width: 400px;
+    height: auto;
+    background-color: #000000;
+    background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
+    border-radius: 15px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 3px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 0 10px;
+    z-index: 10;
+}
+
+.card-wrapper {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+}
+
+.card-icon {
+    width: 20%;
+}
+
+.card-icon .icon-cart-box {
+    background-color: #ffffffcb;
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    text-align: center;
+    padding: 13px 0px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.color{
+    color: #201f2c;
+}
+
+.card-content {
+    width: 80%;
+}
+
+.card-title-wrapper {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: baseline;
+    width: 100%;
+}
+
+.card-title {
+    width: 95%;
+    font-size: 1em;
+    font-weight: 600;
+    color: white;
+    padding: 20px 0 0 10px;
+}
+
+.card-action {
+    width: 5%;
+    text-align: right;
+    padding: 0 20px;
+}
+
+.card-action svg {
+    cursor: pointer;
+    fill: rgba(255, 255, 255, 0.733);
+    transition: 0.3s ease-in-out;
+}
+
+.card-action svg:hover {
+    fill: #6a6792;
+}
+
+.card-text {
+    font-size: 0.8em;
+    color: white;
+    padding: 10px 0 10px 10px;
+}
+
+.product-price {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: #333;
+    padding: 0 0 10px 10px;
+}
+
+.btn-accept {
+    font-size: 0.7em;
+    font-weight: 600;
+    padding: 5px 10px;
+    margin: 5px 10px 20px;
+    border-radius: 15px;
+    color: #e3f2fd;
+    border: 1px solid #e3f2fd;
+    background-color: #6a6792;
+    box-shadow: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+}
+
+.btn-accept:hover,
+.btn-accept:active,
+.btn-accept:focus {
+    color: #12121a;
+    background-color: #e3f2fd;
+    border: 1px solid #6a6792;
+}

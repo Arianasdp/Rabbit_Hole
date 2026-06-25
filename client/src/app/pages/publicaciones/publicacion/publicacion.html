@@ -11,7 +11,7 @@
 
         <span class="date">{{ publicacion().created | date:'dd/MM/yyyy HH:mm' }}</span>
         @if (authService.profile()?.username === publicacion().author.username) {
-            <button class="deleteButton" (click)="deleteMyPost()">
+            <button class="deleteButton"  (click)="pedirConfirmacion()">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -37,7 +37,17 @@
 
             <span class="tooltip">Delete</span>
             </button>
-                }
+
+            @if (showDeleteModal) {
+                <app-modal
+                titulo="Eliminar publicación"
+                mensaje="¿Estás seguro?"
+                (aceptar)="confirmarDelete()"
+                (cancelar)="cerrarModal()"
+                />
+            }
+
+        }
             </div>
     </div>
 

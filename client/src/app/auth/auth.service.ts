@@ -27,6 +27,8 @@ export class AuthService {
 
   isLoggedIn = computed(() => this.usuario() !== null);
 
+  showSessionModal = signal(false);
+
   constructor() {
     const payload = this.getPayload();
     console.log(payload);
@@ -84,6 +86,28 @@ export class AuthService {
     }
   }
 
+  private async actualizarSesion(jwt: string) {
+
+    this.setToken(jwt);
+
+    const payload = this.getPayload();
+    this.usuario.set(payload);
+
+    const user = await firstValueFrom(
+      this.http.get<Usuario>(`${this.apiUrl}/auth/me`)
+    );
+
+    this.profile.set(user);
+  }
+
+  iniciarTimer() {
+
+    setTimeout(() => {
+      this.showSessionModal.set(true);
+    }, 10 * 60 * 1000);
+
+  }
+
   async registro(datos: RegistroDto | FormData) {
     try {
       const respuesta = await firstValueFrom(
@@ -93,16 +117,8 @@ export class AuthService {
         )
       );
 
-      this.setToken(respuesta.jwt);
-
-      const payload = this.getPayload();
-
-      this.usuario.set(payload);
-
-      const user = await firstValueFrom(
-      this.http.get<Usuario>(`${this.apiUrl}/auth/me`));
-
-      this.profile.set(user);
+      await this.actualizarSesion(respuesta.jwt);
+      this.iniciarTimer();
 
       return respuesta;
 
@@ -121,21 +137,35 @@ export class AuthService {
       )
     );
 
-    this.setToken(respuesta.jwt);
-
-    const payload = this.getPayload();
-
-    this.usuario.set(payload);
-
-    const user = await firstValueFrom(
-      this.http.get<Usuario>(`${this.apiUrl}/auth/me`)
-    );
-
-    this.profile.set(user);
-
-    console.log("profile: ", this.profile);
+    await this.actualizarSesion(respuesta.jwt);
+    this.iniciarTimer();
 
     return respuesta;
+  }
+
+  cerrarModalSesion() {
+    this.showSessionModal.set(false);
+  }
+
+  async extenderSesion() {
+    try {
+      const respuesta = await firstValueFrom(
+        this.http.post<{ jwt: string }>(
+          `${this.apiUrl}/auth/refrescar`,
+        {})
+      );
+    
+      await this.actualizarSesion(respuesta.jwt);
+
+      this.iniciarTimer();
+
+      return respuesta;
+
+    } catch (error: any) {
+      console.log(error);
+
+      throw error;
+    }
   }
 
 }

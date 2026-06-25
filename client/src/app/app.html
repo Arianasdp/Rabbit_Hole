@@ -29,7 +29,8 @@
 
   @if (menuOpen) {
 
-    <div class="dropdown">
+    <div class="dropdown"  appClickOutside
+    (appClickOutside)="cerrarDropdown()">
 
       @if (authService.isLoggedIn()) {
 
@@ -69,3 +70,12 @@
 </nav>
 
 <router-outlet />
+
+@if (authService.showSessionModal()) {
+  <app-modal
+    titulo="Sesión por vencer"
+    mensaje="¿Querés extender la sesión?"
+    (cancelar)="cancelar()"
+    (aceptar)="extender()"
+  />
+}

@@ -1,12 +1,14 @@
-import { Component, EventEmitter, input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { IPublicacion } from './publicacion.interface';
 import { PublicacionesService } from '../publicaciones.service';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../../auth/auth.service';
+import { ConfirmActionDirective } from '../../../directives/confirm-action.directive';
+import { Modal } from '../../../common/modal/modal';
 
 @Component({
   selector: 'app-publicacion',
-  imports: [DatePipe],
+  imports: [DatePipe, ConfirmActionDirective, Modal],
   templateUrl: './publicacion.html',
   styleUrl: './publicacion.css',
 })
@@ -55,6 +57,24 @@ export class Publicacion {
           }
         });
     }
+  }
+
+  showDeleteModal = false;
+
+  pedirConfirmacion() {
+    this.showDeleteModal = true;
+  }
+
+  cerrarModal() {
+    console.log('cerrar modal', this.showDeleteModal);
+    this.showDeleteModal = false;
+  }
+
+  confirmarDelete() {
+    console.log('antes', this.showDeleteModal);
+    this.deleteMyPost();
+    this.showDeleteModal = false;
+    console.log('dsps', this.showDeleteModal);
   }
 
 }

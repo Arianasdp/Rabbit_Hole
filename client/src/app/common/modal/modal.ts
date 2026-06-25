@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -6,4 +6,13 @@ import { Component } from '@angular/core';
   templateUrl: './modal.html',
   styleUrl: './modal.css',
 })
-export class Modal {}
+export class Modal {
+
+  @Input() titulo = '';
+
+  @Input() mensaje = '';
+
+  @Output() aceptar = new EventEmitter<void>();
+  
+  @Output() cancelar = new EventEmitter<void>();
+}

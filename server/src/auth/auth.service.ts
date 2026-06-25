@@ -100,7 +100,11 @@ export class AuthService {
       role: payload.role,
     };
 
-    return this.signToken(nuevoPayload);
+    const jwt = this.signToken(nuevoPayload);
+
+    return {
+      jwt,
+    };
   }
 
   private signToken(payload: JwtPayload) {
