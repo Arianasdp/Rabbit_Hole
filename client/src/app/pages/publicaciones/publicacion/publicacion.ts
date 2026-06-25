@@ -1,4 +1,4 @@
-import { Component, effect, EventEmitter, inject, input, Output } from '@angular/core';
+import { Component, effect, EventEmitter, inject, input, Output, signal } from '@angular/core';
 import { IPublicacion } from './publicacion.interface';
 import { PublicacionesService } from '../publicaciones.service';
 import { DatePipe } from '@angular/common';
@@ -21,7 +21,7 @@ export class Publicacion {
   miForm: FormGroup;
   publicacion = input.required<IPublicacion>();
 
-  comentarios = this.comentariosService.comentarios;
+  comentarios = signal<IComentario[]>([]);
 
   @Output() likeChanged = new EventEmitter<IPublicacion>();
 
@@ -38,17 +38,22 @@ export class Publicacion {
         description: ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(140)]],
       });
       effect(() => {
-      this.comentariosService.cargar(this.publicacion()._id);
+      this.cargarComentarios(this.publicacion()._id);
       });
     }
-
-  ngOnInit() {
-    this.comentariosService.cargar(this.publicacion()._id);
-  }
 
   get description() {
     return this.miForm.get('description');
   }
+
+  cargarComentarios(id: string) {
+          console.log('Cargando comentarios de', id);
+          this.comentariosService.find(id).subscribe({
+              next: comentarios => {
+                  this.comentarios.set(comentarios);
+              }
+              });
+          }
 
   toggleLike() {
   if (this.authService.isLoggedIn()) {

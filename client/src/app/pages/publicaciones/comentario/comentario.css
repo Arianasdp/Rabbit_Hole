@@ -1,6 +1,6 @@
 .comments {
     display: grid;
-    grid-template-columns: 35px 1fr;
+    grid-template-columns: 1fr;
     gap: 20px;
     padding: 20px;
 }
@@ -19,7 +19,7 @@
     gap: 10px;
 }
 
-.comment-container .user .user-pic {
+.comment-container .user .user-pic img{
     width: 40px;
     height: 40px;
     position: relative;

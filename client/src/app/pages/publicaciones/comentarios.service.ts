@@ -17,8 +17,6 @@ export class ComentariosService {
 
     constructor(private http: HttpClient) {} 
 
-    comentarios = signal<IComentario[]>([]);
-
     find(id: string, offset = 0, limit = 10) {
         return this.http.get<IComentario[]>(`${this.apiUrl}/publicaciones/${id}/comentarios`, {
             params: {
@@ -27,22 +25,14 @@ export class ComentariosService {
             }
             });
         }
-    
-    cargar(id: string) {
-        this.find(id).subscribe({
-            next: comentarios => {
-                this.comentarios.set(comentarios);
-            }
-            });
-        }
 
     async crearComentario(id: string, datos: FormData) {
         const nueva =  await firstValueFrom(this.http.post<IComentario>(`${this.apiUrl}/publicaciones/${id}/comentarios`, datos));
     
-        this.comentarios.update(actuales => [
-            nueva,
-            ...actuales
-        ]);
+        // this.comentarios.update(actuales => [
+        //     nueva,
+        //     ...actuales
+        // ]);
     }
 
     async editarComentario(id_publicacion: string, id: string, datos: FormData) {
