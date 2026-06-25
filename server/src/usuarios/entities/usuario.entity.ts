@@ -29,6 +29,9 @@ export class Usuario {
   @Prop()
   img: string;
 
+  @Prop({ default: false })
+  deleted: boolean;
+
   @Prop({ maxlength: 250 })
   description: string;
 }

@@ -67,4 +67,14 @@ export class UsuariosService {
       'profile name surname username img email birthdate description',
     );
   }
+
+  async traer() {
+    return await this.UsuarioModel.find();
+  }
+
+  async delete(id: string) {
+    await this.UsuarioModel.findByIdAndUpdate(id, {
+      deleted: true,
+    });
+  }
 }

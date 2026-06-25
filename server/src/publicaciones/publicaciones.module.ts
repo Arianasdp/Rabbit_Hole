@@ -5,6 +5,9 @@ import { Publicacion, publicacionSchema } from './entities/publicacion.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from '../auth/auth.module';
 import { AuthGuard } from '../common/guards/auth-verification.guard';
+import { Comentario, comentarioSchema } from './entities/comentario.entity';
+import { ComentariosService } from './comentarios.service';
+import { ComentariosController } from './comentarios.controller';
 
 @Module({
   imports: [
@@ -14,9 +17,13 @@ import { AuthGuard } from '../common/guards/auth-verification.guard';
         name: Publicacion.name,
         schema: publicacionSchema,
       },
+      {
+        name: Comentario.name,
+        schema: comentarioSchema,
+      },
     ]),
   ],
-  providers: [PublicacionesService, AuthGuard],
-  controllers: [PublicacionesController],
+  providers: [PublicacionesService, AuthGuard, ComentariosService],
+  controllers: [PublicacionesController, ComentariosController],
 })
 export class PublicacionesModule {}

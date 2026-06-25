@@ -102,33 +102,6 @@ export class PublicacionesService {
     ]);
   }
 
-  // async toggleLike(id: string, usuarioId: string) {
-  //   const publicacion = await this.PublicacionModel.findById(id);
-  //   console.log(publicacion);
-
-  //   if (publicacion) {
-  //     const tieneLike = publicacion.likes.includes(usuarioId);
-
-  //     if (tieneLike) {
-  //       return this.PublicacionModel.findByIdAndUpdate(
-  //         id,
-  //         {
-  //           $pull: { likes: usuarioId },
-  //         },
-  //         { returnDocument: 'after' },
-  //       ).populate('author');
-  //     }
-
-  //     return this.PublicacionModel.findByIdAndUpdate(
-  //       id,
-  //       {
-  //         $addToSet: { likes: usuarioId },
-  //       },
-  //       { returnDocument: 'after' },
-  //     ).populate('author');
-  //   }
-  // }
-
   async toggleLike(id: string, usuarioId: string) {
     const publicacion = await this.PublicacionModel.findById(id);
     console.log(publicacion);
@@ -184,5 +157,9 @@ export class PublicacionesService {
     return {
       message: 'Publicación eliminada',
     };
+  }
+
+  async findPublicacionPorId(id: string) {
+    return this.PublicacionModel.find({ _id: id, deleted: false });
   }
 }
