@@ -10,9 +10,12 @@ export const tokenExpiredInterceptor: HttpInterceptorFn = (req, next) => {
         catchError(error => {
 
         if (error.status === 401) {
-            console.log("entramos al interceptor");
-            localStorage.removeItem('token');
-            router.navigateByUrl('/auth/login');
+        console.log("entramos al interceptor");
+        localStorage.removeItem('token');
+        console.log("token borrado");
+
+        router.navigateByUrl('/auth/login');
+        console.log("navigate ejecutado");
         }
 
         return throwError(() => error);

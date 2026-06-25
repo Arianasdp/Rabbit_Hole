@@ -35,7 +35,16 @@ export class ComentariosService {
         // ]);
     }
 
-    async editarComentario(id_publicacion: string, id: string, datos: FormData) {
-        await firstValueFrom(this.http.put<IComentario>(`${this.apiUrl}/publicaciones/${id_publicacion}/comentarios${id}`, datos));
+    async editarComentario(id_publicacion: string, id: string, datos: FormData): Promise<IComentario>  {
+        console.log('id_publicacion en service:', id_publicacion);
+        console.log('id comentario en service:', id);
+        const url =
+            `${this.apiUrl}/publicaciones/${id_publicacion}/comentarios/${id}`;
+
+        console.log('URL final:', url);
+
+        return await firstValueFrom(
+            this.http.put<IComentario>(url, datos)
+        );
     }
 }

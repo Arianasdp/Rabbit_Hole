@@ -106,7 +106,7 @@
     <div class="text-box">
         <form [formGroup]="miForm" (ngSubmit)="accion()" class="box-container">
             <div [class.invalid]="description?.invalid && (description?.dirty || description?.touched)">
-                    <textarea formControlName="description" placeholder="Responder" maxlength="140"></textarea>
+                    <textarea formControlName="description" placeholder="Responder" maxlength="140" ></textarea>
                 </div>
             <div>
             <div class="formatting">

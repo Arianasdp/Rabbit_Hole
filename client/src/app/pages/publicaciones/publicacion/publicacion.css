@@ -258,6 +258,7 @@ hr {
   background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
   padding: 8px;
   border-radius: 15px;
+  margin-bottom: 0.5rem;
 }
 
 .text-box .box-container {

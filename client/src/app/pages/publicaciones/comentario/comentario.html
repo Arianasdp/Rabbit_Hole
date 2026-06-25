@@ -1,17 +1,61 @@
+<div class="comments">
+    <div class="comment-container">
+        <div class="besides">
+            <div class="user">
+                <div class="user-pic">
+                    <img [src]="comentario().author.img" alt="username">
+                </div>
+                <div class="user-info">
+                    <span>{{ comentario().author.username }}</span>
+                    <p>{{ comentario().created | date:'dd/MM/yyyy HH:mm' }}</p>
+                </div>
+            </div>
+            <div class="editar">
+                @if (authService.profile()?.username === comentario().author.username) {
+                    <button class="deleteButton"  (click)="editar()">
+                    <i class="bi bi-pencil-square white"></i>
+                    <span class="tooltip">Editar</span>
+                    </button>
+                }
+            </div>
+        </div>
+        @if (!editing()) {
+            <p class="comment-content">
+                {{ comentario().description }}, {{comentario().publicacion_id}}
+            </p>
+            } @else {
+                <form [formGroup]="miForm" (ngSubmit)="accion()">
+                    <div class="edit-form">
+                        <div class="close-btn">
+                            <button class="deleteButton" (click)="this.editing.set(false)">
+                            <i class="bi bi-x white"></i>
+                            </button>
+                        </div>
 
-    <div class="comments">
-        <div class="comment-container">
-        <div class="user">
-            <div class="user-pic">
-            <img [src]="comentario().author.img" alt="username">
-            </div>
-            <div class="user-info">
-            <span>{{ comentario().author.username }}</span>
-            <p>{{ comentario().created | date:'dd/MM/yyyy HH:mm' }}</p>
-            </div>
-        </div>
-        <p class="comment-content">
-            {{comentario().description}}
-        </p>
-        </div>
+                    <div [class.invalid]="description?.invalid && (description?.dirty || description?.touched)">
+                        <textarea formControlName="description" maxlength="140"></textarea>
+                    </div>
+                    <div class="input-count">
+                        <p>{{ miForm.get('description')?.value?.length || 0 }}/140</p>
+                        @if (description?.touched && description?.hasError('required')) {
+                    <p class="error">La descripción es obligatoria</p>
+                    }
+
+                    @if (description?.dirty && description?.hasError('minlength')) {
+                    <p class="error">La descripción debe tener al menos 2 caracteres</p>
+                    }
+
+                    @if (description?.dirty && description?.hasError('maxlength')) {
+                    <p class="error">La descripción no puede superar los 140 caracteres</p>
+                    }
+                    </div>
+
+                    <div class="btn">
+                    <button type="submit" [disabled]="miForm.invalid" class="button1">
+                        Guardar
+                    </button></div>
+                </div>
+        </form>
+        }
     </div>
+</div>
