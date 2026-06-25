@@ -30,8 +30,9 @@ export class AuthService {
   showSessionModal = signal(false);
 
   constructor() {
+    console.log('TOKEN en constructor: ', this.getToken());
     const payload = this.getPayload();
-    console.log(payload);
+    console.log('payload en constructor: ', payload);
 
     if (payload) {
       this.usuario.set(payload);
@@ -53,7 +54,8 @@ export class AuthService {
       );
 
       this.profile.set(user);
-    } catch {
+    } catch (error) {
+      console.error('Error auth/me: ', error);
       localStorage.removeItem('token');
     }
   }
@@ -80,8 +82,11 @@ export class AuthService {
     }
 
     try {
-      return jwtDecode<TokenPayload>(token);
-    } catch {
+      const payload = jwtDecode<TokenPayload>(token);
+      console.log('Payload OK en getpayload: ', payload);
+      return payload;
+    } catch (error) {
+      console.log('Error decodificando en getpayload: ', error);
       return null;
     }
   }

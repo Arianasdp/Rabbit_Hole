@@ -1,0 +1,17 @@
+
+    <div class="comments">
+        <div class="comment-container">
+        <div class="user">
+            <div class="user-pic">
+            <img [src]="comentario().author.img" alt="username">
+            </div>
+            <div class="user-info">
+            <span>{{ comentario().author.username }}</span>
+            <p>{{ comentario().created | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+        </div>
+        <p class="comment-content">
+            {{comentario().description}}
+        </p>
+        </div>
+    </div>

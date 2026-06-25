@@ -35,13 +35,17 @@ export class ComentariosService {
       publicacion_id: publicacionId,
     });
 
-    return respuesta;
+    const resultado = await this.ComentarioModel.findById(
+      respuesta._id,
+    ).populate('author');
+
+    return resultado;
   }
 
   async editar(
     id: string,
     userId: string,
-    editarComentarioDto: EditarComentarioDto
+    editarComentarioDto: EditarComentarioDto,
   ) {
     // const respuesta = await this.ComentarioModel.findByIdAndUpdate()
     const comentario = await this.ComentarioModel.findById(id);
@@ -56,19 +60,31 @@ export class ComentariosService {
       throw new ForbiddenException();
     }
 
-    await this.ComentarioModel.findByIdAndUpdate(id, {
-      description: editarComentarioDto.description,
-      edited: true,
-    });
+    const comentarioActualizado = await this.ComentarioModel.findByIdAndUpdate(
+      id,
+      {
+        description: editarComentarioDto.description,
+        edited: true,
+      },
+    );
 
-    return {
-      message: 'Comentario editado',
-    };
+    return comentarioActualizado;
   }
 
   async traer(publicacionId: string, offset = 0, limit = 10) {
     // return this.ComentarioModel.findById(publicacionId).sort({ created: -1 });
     return this.ComentarioModel.aggregate([
+      {
+        $lookup: {
+          from: 'usuarios',
+          localField: 'author',
+          foreignField: '_id',
+          as: 'authorData',
+        },
+      },
+      {
+        $unwind: '$authorData',
+      },
       {
         $match: {
           publicacion_id: new Types.ObjectId(publicacionId),
@@ -82,6 +98,17 @@ export class ComentariosService {
       },
       {
         $limit: Number(limit),
+      },
+      {
+        $project: {
+          description: 1,
+          created: 1,
+          edited: 1,
+          author: {
+            username: '$authorData.username',
+            img: '$authorData.img',
+          },
+        },
       },
     ]);
   }

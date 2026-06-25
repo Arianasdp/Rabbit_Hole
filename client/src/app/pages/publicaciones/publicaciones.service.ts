@@ -54,15 +54,9 @@ export class PublicacionesService {
     async crearPost(datos: FormData) {
         const nueva =  await firstValueFrom(this.http.post<IPublicacion>(`${this.apiUrl}/publicaciones`, datos));
 
-        console.log('POST RESPONSE', nueva);
-        console.log('AUTHOR', nueva.author);
-
         this.publicaciones.update(actuales => [
             nueva,
             ...actuales
         ]);
-
-        console.log('POST RESPONSE', nueva);
-        console.log('AUTHOR', nueva.author);
     }
 }

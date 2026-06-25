@@ -15,7 +15,6 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class Publicaciones {
 
-  // publicaciones = signal<IPublicacion[]>([]);
   sort = signal<'fecha' | 'likes'>('fecha');
   author = signal('');
   private authorSearch$ = new Subject<string>();

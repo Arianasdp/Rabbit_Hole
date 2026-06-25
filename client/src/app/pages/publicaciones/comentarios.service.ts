@@ -1,0 +1,51 @@
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable, signal } from "@angular/core";
+import { IComentario } from "./comentario/comentario.interface";
+import { AuthService } from "../../auth/auth.service";
+import { firstValueFrom } from "rxjs";
+import { environment } from "../../../environments/environment";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ComentariosService {
+
+    authService = inject(AuthService);
+
+    // apiUrl = environment.apiUrl;
+    apiUrl = 'https://rabbit-hole-backend.onrender.com';
+
+    constructor(private http: HttpClient) {} 
+
+    comentarios = signal<IComentario[]>([]);
+
+    find(id: string, offset = 0, limit = 10) {
+        return this.http.get<IComentario[]>(`${this.apiUrl}/publicaciones/${id}/comentarios`, {
+            params: {
+                offset,
+                limit
+            }
+            });
+        }
+    
+    cargar(id: string) {
+        this.find(id).subscribe({
+            next: comentarios => {
+                this.comentarios.set(comentarios);
+            }
+            });
+        }
+
+    async crearComentario(id: string, datos: FormData) {
+        const nueva =  await firstValueFrom(this.http.post<IComentario>(`${this.apiUrl}/publicaciones/${id}/comentarios`, datos));
+    
+        this.comentarios.update(actuales => [
+            nueva,
+            ...actuales
+        ]);
+    }
+
+    async editarComentario(id_publicacion: string, id: string, datos: FormData) {
+        await firstValueFrom(this.http.put<IComentario>(`${this.apiUrl}/publicaciones/${id_publicacion}/comentarios${id}`, datos));
+    }
+}
