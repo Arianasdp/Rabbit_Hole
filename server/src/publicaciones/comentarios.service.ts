@@ -50,6 +50,8 @@ export class ComentariosService {
     const comentario = await this.ComentarioModel.findById(id);
 
     console.log('autor: ', comentario?.author.toString());
+    console.log('DTO:', editarComentarioDto);
+    console.log('ID:', id);
 
     if (!comentario) {
       throw new NotFoundException();
@@ -64,6 +66,9 @@ export class ComentariosService {
       {
         description: editarComentarioDto.description,
         edited: true,
+      },
+      {
+        new: true,
       },
     );
 
