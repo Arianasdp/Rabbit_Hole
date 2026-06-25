@@ -10,7 +10,7 @@
             <span class="name">{{authService.profile()?.name}} {{authService.profile()?.surname}} ({{authService.profile()?.username}})</span>
             <div class="about-me">
                 <p>Perfil: {{authService.profile()?.profile}}</p>
-                <p>Fecha de nacimiento: {{authService.profile()?.birthdate | date:'dd/MM/yyyy'}}</p>
+                <p>Fecha de nacimiento: {{authService.profile()?.birthdate | date:'dd/MM/yyyy':'UTC'}}</p>
                 <p>Email: {{authService.profile()?.email}}</p>
                 <p>{{authService.profile()?.description}}</p>
             </div>

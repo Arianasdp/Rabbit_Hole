@@ -21,7 +21,7 @@
         </div>
         @if (!editing()) {
             <p class="comment-content">
-                {{ comentario().description }}, {{comentario().publicacion_id}}
+                {{ comentario().description }}
             </p>
             } @else {
                 <form [formGroup]="miForm" (ngSubmit)="accion()">

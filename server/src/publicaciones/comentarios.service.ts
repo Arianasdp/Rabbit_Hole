@@ -47,7 +47,6 @@ export class ComentariosService {
     userId: string,
     editarComentarioDto: EditarComentarioDto,
   ) {
-    // const respuesta = await this.ComentarioModel.findByIdAndUpdate()
     const comentario = await this.ComentarioModel.findById(id);
 
     console.log('autor: ', comentario?.author.toString());

@@ -18,6 +18,7 @@ export class Comentario {
   comentarioService = inject(ComentariosService);
 
   comentario = input.required<IComentario>();
+  publicacionId = input.required<string>();
 
   editing = signal(false);
 
@@ -31,6 +32,11 @@ export class Comentario {
       });
   }
 
+  ngOnInit() {
+  console.log('comentario init');
+  console.log('publicacionId:', this.publicacionId());
+}
+
   get description() {
     return this.miForm.get('description');
   }
@@ -40,8 +46,9 @@ export class Comentario {
     if (this.miForm.invalid) {
       return;
     }
-    console.log("comentario entero: ", this.comentario());
-    console.log("id_publi en comments:", this.comentario().publicacion_id);
+
+    console.log('comentario', this.comentario());
+    console.log('publicacionId input', this.publicacionId);
 
     const datos = this.miForm.getRawValue();
     
@@ -52,10 +59,15 @@ export class Comentario {
     });
 
     try {
-      console.log("id_publi en try:", this.comentario().publicacion_id);
+    const publicacionId = this.publicacionId();
+
+    if (!publicacionId) {
+      console.error('No llegó publicacionId');
+      return;
+    }
     const comentarioActualizado =
       await this.comentarioService.editarComentario(
-        this.comentario().publicacion_id,
+        this.publicacionId(),
         this.comentario()._id,
         formData
       );
