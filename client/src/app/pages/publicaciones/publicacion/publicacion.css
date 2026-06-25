@@ -272,6 +272,7 @@ hr {
   width: 100%;
   height: 40px;
   resize: none;
+  overflow: hidden;
   border: 0;
   border-radius: 6px;
   padding: 12px 12px 10px 12px;
@@ -314,6 +315,11 @@ hr {
 
 .text-box .formatting .send:hover {
   background-color: #a8a4e4;
+}
+
+.text-box .formatting .send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .error {

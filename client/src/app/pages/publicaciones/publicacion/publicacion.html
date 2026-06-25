@@ -106,35 +106,36 @@
     <div class="text-box">
         <form [formGroup]="miForm" (ngSubmit)="accion()" class="box-container">
             <div [class.invalid]="description?.invalid && (description?.dirty || description?.touched)">
-                <textarea formControlName="description" placeholder="Responder" maxlength="140"></textarea>
-            </div>
-        <div>
+                    <textarea formControlName="description" placeholder="Responder" maxlength="140"></textarea>
+                </div>
+            <div>
             <div class="formatting">
                 <div class="input-count">
-                    <p>{{ miForm.get('description')?.value?.length || 0 }}/140</p>
-                    @if (description?.touched && description?.hasError('required')) {
-                <p class="error">La descripción es obligatoria</p>
-                }
+                        <p>{{ miForm.get('description')?.value?.length || 0 }}/140</p>
+                        @if (description?.touched && description?.hasError('required')) {
+                    <p class="error">La descripción es obligatoria</p>
+                    }
 
-                @if (description?.dirty && description?.hasError('minlength')) {
-                <p class="error">La descripción debe tener al menos 2 caracteres</p>
-                }
+                    @if (description?.dirty && description?.hasError('minlength')) {
+                    <p class="error">La descripción debe tener al menos 2 caracteres</p>
+                    }
 
-                @if (description?.dirty && description?.hasError('maxlength')) {
-                <p class="error">La descripción no puede superar los 140 caracteres</p>
-                }
+                    @if (description?.dirty && description?.hasError('maxlength')) {
+                    <p class="error">La descripción no puede superar los 140 caracteres</p>
+                    }
+                    </div>
+                <button type="submit" [disabled]="miForm.invalid" class="send" title="Enviar">
+                    <svg fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M12 5L12 20"></path>
+                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9"></path>
+                    </svg>
+                </button>
                 </div>
-            <button type="submit" [disabled]="miForm.invalid" class="send" title="Enviar">
-                <svg fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M12 5L12 20"></path>
-                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9"></path>
-                </svg>
-            </button>
             </div>
-        </div>
-    </form>
+        </form>
     </div>}
-    <div class="card-comment">
+    @if(comentarios().length > 0) {
+        <div class="card-comment">
         <span class="title-comment">Comentarios</span>
         @for (comentario of comentarios(); track comentario._id) {
             <app-comentario
@@ -143,5 +144,6 @@
             </app-comentario>
         }
     </div>
+    }
 </div>
 </div>
