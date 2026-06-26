@@ -12,8 +12,8 @@ export class ComentariosService {
 
     authService = inject(AuthService);
 
-    apiUrl = environment.apiUrl;
-    // apiUrl = 'https://rabbit-hole-backend.onrender.com';
+    // apiUrl = environment.apiUrl;
+    apiUrl = 'https://rabbit-hole-backend.onrender.com';
 
     constructor(private http: HttpClient) {} 
 

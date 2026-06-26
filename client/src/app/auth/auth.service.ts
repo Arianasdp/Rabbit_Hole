@@ -18,8 +18,8 @@ export class AuthService {
 
   router = inject(Router);
 
-  apiUrl = environment.apiUrl;
-  // apiUrl = 'https://rabbit-hole-backend.onrender.com';
+  // apiUrl = environment.apiUrl;
+  apiUrl = 'https://rabbit-hole-backend.onrender.com';
 
   usuario = signal<TokenPayload | null>(null);
 
