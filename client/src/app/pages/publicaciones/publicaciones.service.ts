@@ -11,8 +11,7 @@ import { AuthService } from "../../auth/auth.service";
 export class PublicacionesService {
 
     authService = inject(AuthService);
-    // apiUrl = environment.apiUrl;
-    apiUrl = 'https://rabbit-hole-backend.onrender.com';
+    apiUrl = environment.apiUrl;
 
     constructor(private http: HttpClient) {} 
 
