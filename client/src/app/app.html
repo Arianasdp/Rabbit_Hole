@@ -1,16 +1,16 @@
 <nav class="navbar">
 
-  @if (authService.isLoggedIn()) {
+  @if (authState.isLoggedIn()) {
     <img class="logo" src="assets/rabbithole.png" alt="rabbithole">
   }
 
   <div class="user-menu" (click)="toggleMenu()">
 
-    @if (authService.isLoggedIn()) {
+    @if (authState.isLoggedIn()) {
 
-      <img class="profile" [src]="authService.profile()?.img" alt="rabbithole">
+      <img class="profile" [src]="authState.profile()?.img" alt="rabbithole">
 
-      <span>{{ authService.profile()?.username }}</span>
+      <span>{{ authState.profile()?.username }}</span>
 
     } @else {
 
@@ -32,7 +32,7 @@
     <div class="dropdown"  appClickOutside
     (appClickOutside)="cerrarDropdown()">
 
-      @if (authService.isLoggedIn()) {
+      @if (authState.isLoggedIn()) {
 
         <a routerLink="/mi-perfil">
           <i class="bi bi-person"></i>
@@ -71,7 +71,7 @@
 
 <router-outlet />
 
-@if (authService.showSessionModal()) {
+@if (authState.showSessionModal()) {
   <app-modal
     titulo="Sesión por vencer"
     mensaje="¿Querés extender la sesión?"

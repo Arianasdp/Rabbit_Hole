@@ -2,12 +2,12 @@ import { Component, effect, EventEmitter, inject, input, Output, signal } from '
 import { IPublicacion } from './publicacion.interface';
 import { PublicacionesService } from '../publicaciones.service';
 import { DatePipe } from '@angular/common';
-import { AuthService } from '../../../auth/auth.service';
 import { Modal } from '../../../common/modal/modal';
 import { ComentariosService } from '../comentarios.service';
 import { Comentario } from "../comentario/comentario";
 import { IComentario } from '../comentario/comentario.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthStateService } from '../../../auth/auth-state.service';
 
 @Component({
   selector: 'app-publicacion',
@@ -32,7 +32,7 @@ export class Publicacion {
   constructor(
       private fb: FormBuilder,
       public publicacionesService: PublicacionesService,
-      public authService: AuthService
+      public authService: AuthStateService
     ) {
       this.miForm = this.fb.group({
         description: ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(140)]],

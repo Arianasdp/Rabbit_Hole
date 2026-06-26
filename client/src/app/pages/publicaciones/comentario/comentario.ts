@@ -1,10 +1,9 @@
 import { Component, EventEmitter, inject, input, Output, signal } from '@angular/core';
 import { IComentario } from './comentario.interface';
 import { DatePipe } from '@angular/common';
-import { AuthService } from '../../../auth/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ComentariosService } from '../comentarios.service';
-import { firstValueFrom } from 'rxjs';
+import { AuthStateService } from '../../../auth/auth-state.service';
 
 @Component({
   selector: 'app-comentario',
@@ -14,7 +13,7 @@ import { firstValueFrom } from 'rxjs';
 })
 export class Comentario {
 
-  authService = inject(AuthService);
+  authService = inject(AuthStateService);
   comentarioService = inject(ComentariosService);
 
   comentario = input.required<IComentario>();

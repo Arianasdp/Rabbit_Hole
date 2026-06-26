@@ -1,12 +1,12 @@
 import { inject } from "@angular/core";
 import { CanActivateFn, Router } from "@angular/router";
-import { AuthService } from "../auth/auth.service";
+import { AuthStateService } from "../auth/auth-state.service";
 
 export const homeGuard: CanActivateFn = () => {
-    const authService = inject(AuthService);
+    const authState = inject(AuthStateService);
     const router = inject(Router);
 
-    return authService.isLoggedIn()
+    return authState.isLoggedIn()
     ? router.createUrlTree(['/publicaciones'])
     : router.createUrlTree(['/auth/login']);
 };

@@ -1,113 +1,73 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { Injectable, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { LoginDto } from './interfaces/login.dto';
 import { RegistroDto } from './interfaces/registro.dto';
-import { jwtDecode } from 'jwt-decode';
-import { TokenPayload } from './interfaces/token-payload';
-import { Usuario } from './interfaces/usuario';
 import { Router } from '@angular/router';
+import { AuthApiService } from './auth-api.service';
+import { TokenService } from './token.service';
+import { AuthStateService } from './auth-state.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
 
-  private http = inject(HttpClient);
-
-  router = inject(Router);
-
-  apiUrl = environment.apiUrl;
-
-  usuario = signal<TokenPayload | null>(null);
-
-  profile = signal<Usuario | null>(null);
-
-  isLoggedIn = computed(() => this.usuario() !== null);
-
-  showSessionModal = signal(false);
+  private authApi = inject(AuthApiService);
+  private tokenService = inject(TokenService);
+  private authState = inject(AuthStateService);
+  private router = inject(Router);
 
   constructor() {
-    console.log('TOKEN en constructor: ', this.getToken());
-    const payload = this.getPayload();
+    console.log('TOKEN en constructor: ', this.tokenService.getToken());
+    const payload = this.tokenService.getPayload();
     console.log('payload en constructor: ', payload);
 
     if (payload) {
-      this.usuario.set(payload);
-      console.log(this.usuario);
+      this.authState.usuario.set(payload);
+      console.log(this.authState.usuario);
       this.restaurarSesion();
     }
   }
 
   async restaurarSesion() {
-    const token = this.getToken();
+    const token = this.tokenService.getToken();
 
     if (!token) {
       return;
     }
 
     try {
-      const user = await firstValueFrom(
-        this.http.get<Usuario>(`${this.apiUrl}/auth/me`)
-      );
-
-      this.profile.set(user);
+      const user = await firstValueFrom(this.authApi.traerme());
+      this.authState.profile.set(user);
     } catch (error) {
       console.error('Error auth/me: ', error);
-      localStorage.removeItem('token');
+      this.tokenService.removeToken();
     }
-  }
-
-  getToken() {
-    return localStorage.getItem('token');
-  }
-
-  setToken(token: string) {
-    localStorage.setItem('token', token);
   }
 
   logout() {
-    localStorage.removeItem('token');
-    this.usuario.set(null);
+    this.tokenService.removeToken();
+    this.authState.usuario.set(null);
+    this.authState.profile.set(null);
     this.router.navigateByUrl('/auth/login');
-  }
-
-  getPayload(): TokenPayload | null {
-    const token = this.getToken();
-
-    if (!token) {
-      return null;
-    }
-
-    try {
-      const payload = jwtDecode<TokenPayload>(token);
-      console.log('Payload OK en getpayload: ', payload);
-      return payload;
-    } catch (error) {
-      console.log('Error decodificando en getpayload: ', error);
-      return null;
-    }
   }
 
   private async actualizarSesion(jwt: string) {
 
-    this.setToken(jwt);
+    this.tokenService.setToken(jwt);
 
-    const payload = this.getPayload();
-    this.usuario.set(payload);
+    const payload = this.tokenService.getPayload();
+    this.authState.usuario.set(payload);
 
-    const user = await firstValueFrom(
-      this.http.get<Usuario>(`${this.apiUrl}/auth/me`)
-    );
+    const user = await firstValueFrom(this.authApi.traerme());
 
-    this.profile.set(user);
+    this.authState.profile.set(user);
   }
 
   iniciarTimer() {
-
+    console.log('entramos a iniciar timer');
     setTimeout(() => {
-      this.showSessionModal.set(true);
+      this.authState.showSessionModal.set(true);
     }, 10 * 60 * 1000);
 
   }
@@ -115,11 +75,7 @@ export class AuthService {
   async registro(datos: RegistroDto | FormData) {
     try {
       const respuesta = await firstValueFrom(
-        this.http.post<{ jwt: string }>(
-          `${this.apiUrl}/auth/registro`,
-          datos
-        )
-      );
+        this.authApi.registrar(datos));
 
       await this.actualizarSesion(respuesta.jwt);
       this.iniciarTimer();
@@ -128,18 +84,12 @@ export class AuthService {
 
     } catch (error: any) {
       console.log(error);
-
       throw error;
     }
   }
 
   async login(datos: LoginDto) {
-    const respuesta = await firstValueFrom(
-      this.http.post<{ jwt: string }>(
-        `${this.apiUrl}/auth/login`,
-        datos
-      )
-    );
+    const respuesta = await firstValueFrom(this.authApi.loguear(datos));
 
     await this.actualizarSesion(respuesta.jwt);
     this.iniciarTimer();
@@ -148,16 +98,12 @@ export class AuthService {
   }
 
   cerrarModalSesion() {
-    this.showSessionModal.set(false);
+    this.authState.showSessionModal.set(false);
   }
 
   async extenderSesion() {
     try {
-      const respuesta = await firstValueFrom(
-        this.http.post<{ jwt: string }>(
-          `${this.apiUrl}/auth/refrescar`,
-        {})
-      );
+      const respuesta = await firstValueFrom(this.authApi.refrescar());
     
       await this.actualizarSesion(respuesta.jwt);
 

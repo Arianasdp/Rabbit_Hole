@@ -3,6 +3,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { Modal } from "./common/modal/modal";
 import { ClickOutsideDirective } from './directives/click-outside.directive';
+import { AuthStateService } from './auth/auth-state.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class App {
   protected readonly title = signal('client');
 
   authService = inject(AuthService);
+  authState = inject(AuthStateService);
 
   menuOpen = false;
 
@@ -28,7 +30,6 @@ export class App {
   }
 
   cerrarDropdown() {
-    console.log('CERRANDO');
     this.menuOpen = false;
   }
 

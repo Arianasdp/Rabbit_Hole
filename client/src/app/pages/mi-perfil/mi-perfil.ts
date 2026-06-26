@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
-import { AuthService } from '../../auth/auth.service';
 import { DatePipe } from '@angular/common';
 import { IPublicacion } from '../publicaciones/publicacion/publicacion.interface';
 import { PublicacionesService } from '../publicaciones/publicaciones.service';
 import { Publicacion } from '../publicaciones/publicacion/publicacion';
+import { AuthStateService } from '../../auth/auth-state.service';
 
 @Component({
   selector: 'app-mi-perfil',
@@ -15,7 +15,7 @@ export class MiPerfil {
 
   private publicacionesService = inject(PublicacionesService);
   
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthStateService) {}
 
   misPublicaciones = signal<IPublicacion[]>([]);
 

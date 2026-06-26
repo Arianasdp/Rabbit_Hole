@@ -3,9 +3,9 @@ import { Publicacion } from './publicacion/publicacion';
 import { PublicacionesService } from './publicaciones.service';
 import { IPublicacion } from './publicacion/publicacion.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '../../auth/auth.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { AuthStateService } from '../../auth/auth-state.service';
 
 @Component({
   selector: 'app-publicaciones',
@@ -22,7 +22,7 @@ export class Publicaciones {
   miForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder, public authService: AuthService
+    private fb: FormBuilder, public authService: AuthStateService
   ) {
     this.miForm = this.fb.group({
       title: ['', [ Validators.required, Validators.minLength(2), Validators.maxLength(50)]],

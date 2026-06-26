@@ -20,6 +20,9 @@
             </div>
         </div>
         @if (!editing()) {
+            @if(comentario().edited) {
+                <p>editado</p>
+            }
             <p class="comment-content">
                 {{ comentario().description }}
             </p>
