@@ -51,16 +51,9 @@ export class Comentario {
     console.log('publicacionId input', this.publicacionId);
 
     const datos = this.miForm.getRawValue();
-    
-    const formData = new FormData();
-
-    Object.entries(datos).forEach(([key, value]) => {
-        formData.append(key, String(value));
-    });
 
     try {
     const publicacionId = this.publicacionId();
-
     if (!publicacionId) {
       console.error('No llegó publicacionId');
       return;
@@ -69,7 +62,7 @@ export class Comentario {
       await this.comentarioService.editarComentario(
         this.publicacionId(),
         this.comentario()._id,
-        formData
+        datos
       );
 
     this.comentarioEdited.emit(comentarioActualizado);

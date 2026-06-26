@@ -40,7 +40,10 @@ export class ComentariosController {
     @Req() req: express.Request,
     @Body() editarComentarioDto: EditarComentarioDto,
   ) {
+    console.log('entramos a editar');
     console.log('userid: ', req['user'].sub);
+    console.log('DTO:', editarComentarioDto);
+    console.log('ID:', comentarioId);
     return this.comentariosService.editar(
       comentarioId,
       req['user'].sub,

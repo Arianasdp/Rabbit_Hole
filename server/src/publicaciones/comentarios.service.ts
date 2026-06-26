@@ -68,9 +68,9 @@ export class ComentariosService {
         edited: true,
       },
       {
-        new: true,
+        returnDocument: 'after',
       },
-    );
+    ).populate('author');
 
     return comentarioActualizado;
   }

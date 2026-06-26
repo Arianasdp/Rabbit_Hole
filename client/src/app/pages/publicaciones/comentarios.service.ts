@@ -12,8 +12,8 @@ export class ComentariosService {
 
     authService = inject(AuthService);
 
-    // apiUrl = environment.apiUrl;
-    apiUrl = 'https://rabbit-hole-backend.onrender.com';
+    apiUrl = environment.apiUrl;
+    // apiUrl = 'https://rabbit-hole-backend.onrender.com';
 
     constructor(private http: HttpClient) {} 
 
@@ -42,6 +42,7 @@ export class ComentariosService {
             `${this.apiUrl}/publicaciones/${id_publicacion}/comentarios/${id}`;
 
         console.log('URL final:', url);
+        console.log("datos en formdata: ", datos);
 
         return await firstValueFrom(
             this.http.put<IComentario>(url, datos)
