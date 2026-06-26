@@ -2,23 +2,27 @@ import { HttpInterceptorFn } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { catchError, throwError } from "rxjs";
 import { Router } from "@angular/router";
+import { AuthService } from "../auth/auth.service";
 
 export const tokenExpiredInterceptor: HttpInterceptorFn = (req, next) => {
     const router = inject(Router);
+    const authService = inject(AuthService);
 
     return next(req).pipe(
         catchError(error => {
 
-        if (error.status === 401) {
-        console.log("entramos al interceptor");
-        localStorage.removeItem('token');
-        console.log("token borrado");
+            if (error.status === 401) {
 
-        router.navigateByUrl('/auth/login');
-        console.log("navigate ejecutado");
-        }
+                localStorage.removeItem('token');
 
-        return throwError(() => error);
+                authService.usuario.set(null);
+
+                router.navigateByUrl('/auth/login')
+                    .then(res => console.log('resultado navigate', res));
+
+            }
+
+            return throwError(() => error);
         })
     );
 };
