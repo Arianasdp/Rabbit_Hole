@@ -7,7 +7,6 @@ import {
   UploadedFile,
   ParseFilePipe,
   MaxFileSizeValidator,
-  BadRequestException,
   UseGuards,
   Get,
   Req,
@@ -16,9 +15,10 @@ import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import { AuthService } from './auth.service';
 import { LoginUsuarioDto } from '../usuarios/dto/login-usuario.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { AuthGuard } from '../common/guards/auth-verification.guard';
+import { AuthGuard } from '../security/auth-verification.guard';
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import { JwtService } from '../security/jwt.service';
 
 cloudinary.config({
   cloud_name: 'dtpjfa6pc',
@@ -28,7 +28,10 @@ cloudinary.config({
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   @Post('registro')
   @UseInterceptors(
@@ -66,12 +69,12 @@ export class AuthController {
 
   @Post('autorizar')
   autorizar(@Headers('Authorization') authHeader: string) {
-    return this.authService.verificar(authHeader);
+    return this.jwtService.verificar(authHeader);
   }
 
   @Post('refrescar')
   refrescar(@Headers('Authorization') authHeader: string) {
-    return this.authService.refrescar(authHeader);
+    return this.jwtService.refrescar(authHeader);
   }
 
   @UseGuards(AuthGuard)

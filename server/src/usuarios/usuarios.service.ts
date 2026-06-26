@@ -77,4 +77,10 @@ export class UsuariosService {
       deleted: true,
     });
   }
+
+  async habilitar(id: string) {
+    await this.UsuarioModel.findByIdAndUpdate(id, {
+      deleted: false,
+    });
+  }
 }

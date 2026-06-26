@@ -1,16 +1,16 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { AuthService } from '../../auth/auth.service';
+import { JwtService } from 'src/security/jwt.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
 
     const authHeader = request.headers.authorization;
 
-    const payload = this.authService.verificar(authHeader);
+    const payload = this.jwtService.verificar(authHeader);
 
     request.user = payload;
 

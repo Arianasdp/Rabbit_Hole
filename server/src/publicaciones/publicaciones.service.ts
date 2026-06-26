@@ -102,6 +102,60 @@ export class PublicacionesService {
     ]);
   }
 
+  async findInfinito(sort?: string, author?: string, userId?: string) {
+    const sortField: Record<string, 1 | -1> =
+      sort === 'likes' ? { likesCount: -1 } : { created: -1 };
+
+    return this.PublicacionModel.aggregate([
+      {
+        $lookup: {
+          from: 'usuarios',
+          localField: 'author',
+          foreignField: '_id',
+          as: 'authorData',
+        },
+      },
+      {
+        $unwind: '$authorData',
+      },
+      {
+        $match: {
+          deleted: false,
+          ...(author && { 'authorData.username': author }),
+        },
+      },
+      {
+        $addFields: {
+          likesCount: {
+            $size: '$likes',
+          },
+          likedByUser: userId
+            ? {
+                $in: [userId, '$likes'],
+              }
+            : false,
+        },
+      },
+      {
+        $sort: sortField,
+      },
+      {
+        $project: {
+          title: 1,
+          description: 1,
+          img: 1,
+          created: 1,
+          likesCount: 1,
+          likedByUser: 1,
+          author: {
+            username: '$authorData.username',
+            img: '$authorData.img',
+          },
+        },
+      },
+    ]);
+  }
+
   async toggleLike(id: string, usuarioId: string) {
     const publicacion = await this.PublicacionModel.findById(id);
     console.log(publicacion);

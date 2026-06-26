@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ComentariosService } from './comentarios.service';
-import { AuthGuard } from 'src/common/guards/auth-verification.guard';
+import { AuthGuard } from 'src/security/auth-verification.guard';
 import * as express from 'express';
 import { CreateComentarioDto } from './dto/create-comentario.dto';
 import { EditarComentarioDto } from './dto/editar-comentario.dto';

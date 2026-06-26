@@ -31,7 +31,7 @@ export class Publicaciones {
     });
     console.log(this.publicaciones);
     effect(() => {
-      this.publicacionesService.cargar(this.sort(), this.author());
+      this.publicacionesService.cargarTodas(this.sort(), this.author());
     });
     this.authorSearch$.pipe(debounceTime(400)).subscribe(valor => {
       this.author.set(valor);

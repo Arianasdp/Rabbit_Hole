@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from './auth/auth.module';
 import { PublicacionesModule } from './publicaciones/publicaciones.module';
+import { SecurityModule } from './security/security.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PublicacionesModule } from './publicaciones/publicaciones.module';
     UsuariosModule,
     AuthModule,
     PublicacionesModule,
+    SecurityModule,
   ],
   controllers: [AppController],
   providers: [

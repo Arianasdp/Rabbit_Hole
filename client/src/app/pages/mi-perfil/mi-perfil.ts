@@ -49,27 +49,4 @@ export class MiPerfil {
         }
       });
   }
-
-  // this.publicacionesService.deletePost(id).subscribe({
-  //   next: () => {
-  //     this.misPublicaciones.update(lista =>
-  //       lista.filter(p => p._id !== id)
-  //     );
-  //   }
-  // });
-
-  // ngOnInit() {
-  //   this.publicacionesService.find('', this.authService.usuario()?.username, 0, 3).subscribe({
-  //     next: publicaciones => {
-  //       this.misPublicaciones.set(publicaciones);
-  //       this.misPublicaciones().forEach(item => {
-  //       console.log(item.author.username);
-  //       });
-  //       console.log(this.authService.profile()?.username);
-  //     },
-  //     error: err => {
-  //       console.error(err);
-  //     }
-  //   });
-  // }
 }

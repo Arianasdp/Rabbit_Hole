@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { CreatePublicacionDto } from './dto/create-publicacion.dto';
 import { PublicacionesService } from './publicaciones.service';
-import { AuthGuard } from '../common/guards/auth-verification.guard';
+import { AuthGuard } from '../security/auth-verification.guard';
 import * as express from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { v2 as cloudinary } from 'cloudinary';
@@ -90,6 +90,17 @@ export class PublicacionesController {
     console.log('AUTHOR:', author);
     const userId = req['user']?.sub;
     return this.publicacionesService.find(sort, author, offset, limit, userId);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('todas')
+  scrollInfinito(
+    @Req() req: Request,
+    @Query('sort') sort?: string,
+    @Query('author') author?: string,
+  ) {
+    const userId = req['user']?.sub;
+    return this.publicacionesService.findInfinito(sort, author, userId);
   }
 
   @UseGuards(AuthGuard)

@@ -29,6 +29,23 @@ export class PublicacionesService {
         });
     }
 
+    findTodas(sort?: string, author?: string) {
+        return this.http.get<IPublicacion[]>(`${this.apiUrl}/publicaciones/todas`, {
+        params: {
+            sort: sort ?? '',
+            author: author ?? ''
+        }
+        });
+    }
+
+    cargarTodas(likes?: string, author?: string) {
+        this.findTodas(likes, author).subscribe({
+        next: publicaciones => {
+            this.publicaciones.set(publicaciones);
+        }
+        });
+    }
+
     cargar(likes?: string, author?: string) {
     this.find(likes, author).subscribe({
         next: publicaciones => {

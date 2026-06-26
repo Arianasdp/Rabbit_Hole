@@ -3,15 +3,15 @@ import { PublicacionesService } from './publicaciones.service';
 import { PublicacionesController } from './publicaciones.controller';
 import { Publicacion, publicacionSchema } from './entities/publicacion.entity';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from '../auth/auth.module';
-import { AuthGuard } from '../common/guards/auth-verification.guard';
+import { AuthGuard } from '../security/auth-verification.guard';
 import { Comentario, comentarioSchema } from './entities/comentario.entity';
 import { ComentariosService } from './comentarios.service';
 import { ComentariosController } from './comentarios.controller';
+import { SecurityModule } from 'src/security/security.module';
 
 @Module({
   imports: [
-    AuthModule,
+    SecurityModule,
     MongooseModule.forFeature([
       {
         name: Publicacion.name,
