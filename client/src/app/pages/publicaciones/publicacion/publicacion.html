@@ -145,6 +145,8 @@
             (comentarioEdited)="actualizarComentario($event)">
             </app-comentario>
         }
+        @if(hayMas()) {
+        <button class="cargar-mas" (click)="cargarMasComentarios(publicacion()._id)">cargar más</button>}
     </div>
     }}
 </div>

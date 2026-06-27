@@ -118,4 +118,14 @@ export class AuthService {
     }
   }
 
+  async autenticarToken(): Promise<boolean> {
+    try {
+
+      await firstValueFrom(this.authApi.autorizar());
+      return true;
+
+    } catch {
+      return false;
+      }
+  }
 }

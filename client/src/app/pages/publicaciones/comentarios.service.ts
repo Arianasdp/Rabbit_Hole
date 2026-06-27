@@ -17,21 +17,13 @@ export class ComentariosService {
     constructor(private http: HttpClient) {} 
 
     find(id: string, offset = 0, limit = 10) {
-        return this.http.get<IComentario[]>(`${this.apiUrl}/publicaciones/${id}/comentarios`, {
-            params: {
-                offset,
-                limit
-            }
-            });
-        }
+        return this.http.get<{data: IComentario[], total: number}>(`${this.apiUrl}/publicaciones/${id}/comentarios`, {
+            params: {offset,limit}
+        });
+    }
 
     async crearComentario(id: string, datos: FormData) {
         await firstValueFrom(this.http.post<IComentario>(`${this.apiUrl}/publicaciones/${id}/comentarios`, datos));
-    
-        // this.comentarios.update(actuales => [
-        //     nueva,
-        //     ...actuales
-        // ]);
     }
 
     async editarComentario(id_publicacion: string, id: string, datos: FormData): Promise<IComentario>  {

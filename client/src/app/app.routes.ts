@@ -6,8 +6,8 @@ import { homeGuard } from './guards/home.guard';
 export const routes: Routes = [
     {
         path: "",
-        canActivate: [homeGuard],
-        children: []
+        redirectTo: 'loading',
+        pathMatch: 'full'
     },
     {
         path: "publicaciones",

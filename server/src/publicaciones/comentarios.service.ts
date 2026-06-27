@@ -49,10 +49,6 @@ export class ComentariosService {
   ) {
     const comentario = await this.ComentarioModel.findById(id);
 
-    console.log('autor: ', comentario?.author.toString());
-    console.log('DTO:', editarComentarioDto);
-    console.log('ID:', id);
-
     if (!comentario) {
       throw new NotFoundException();
     }
@@ -76,8 +72,7 @@ export class ComentariosService {
   }
 
   async traer(publicacionId: string, offset = 0, limit = 10) {
-    // return this.ComentarioModel.findById(publicacionId).sort({ created: -1 });
-    return this.ComentarioModel.aggregate([
+    const comentarios = await this.ComentarioModel.aggregate([
       {
         $lookup: {
           from: 'usuarios',
@@ -115,5 +110,14 @@ export class ComentariosService {
         },
       },
     ]);
+
+    const total = await this.ComentarioModel.countDocuments({
+      publicacion_id: publicacionId,
+    });
+
+    return {
+      data: comentarios,
+      total,
+    };
   }
 }

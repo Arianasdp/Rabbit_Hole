@@ -1,73 +1,75 @@
-<nav class="navbar">
+@if (mostrarNavbar) {
 
-  @if (authState.isLoggedIn()) {
-    <img class="logo" src="assets/rabbithole.png" alt="rabbithole">
-  }
-
-  <div class="user-menu" (click)="toggleMenu()">
+  <nav class="navbar">
 
     @if (authState.isLoggedIn()) {
-
-      <img class="profile" [src]="authState.profile()?.img" alt="rabbithole">
-
-      <span>{{ authState.profile()?.username }}</span>
-
-    } @else {
-
-      <img src="assets/rabbithole.png" alt="rabbithole">
-      <span>Username</span>
-
+      <img class="logo" src="assets/rabbithole.png" alt="rabbithole">
     }
 
-    <i
-      class="bi"
-      [class.bi-chevron-down]="!menuOpen"
-      [class.bi-chevron-up]="menuOpen"
-    ></i>
-
-  </div>
-
-  @if (menuOpen) {
-
-    <div class="dropdown"  appClickOutside
-    (appClickOutside)="cerrarDropdown()">
+    <div class="user-menu" (click)="toggleMenu()">
 
       @if (authState.isLoggedIn()) {
 
-        <a routerLink="/mi-perfil">
-          <i class="bi bi-person"></i>
-          Mi perfil
-        </a>
+        <img class="profile" [src]="authState.profile()?.img" alt="rabbithole">
 
-        <a routerLink="/publicaciones">
-          <i class="bi bi-file-text"></i>
-          Publicaciones
-        </a>
-
-        <button (click)="logout()">
-          <i class="bi bi-box-arrow-right"></i>
-          Cerrar sesión
-        </button>
+        <span>{{ authState.profile()?.username }}</span>
 
       } @else {
 
-        <a routerLink="/auth/login">
-          <i class="bi bi-box-arrow-in-right"></i>
-          Login
-        </a>
-
-        <a routerLink="/auth/registro">
-          <i class="bi bi-person-plus"></i>
-          Registro
-        </a>
+        <img src="assets/rabbithole.png" alt="rabbithole">
+        <span>Username</span>
 
       }
 
+      <i
+        class="bi"
+        [class.bi-chevron-down]="!menuOpen"
+        [class.bi-chevron-up]="menuOpen"
+      ></i>
+
     </div>
 
-  }
+    @if (menuOpen) {
 
-</nav>
+      <div class="dropdown"  appClickOutside
+      (appClickOutside)="cerrarDropdown()">
+
+        @if (authState.isLoggedIn()) {
+
+          <a routerLink="/mi-perfil">
+            <i class="bi bi-person"></i>
+            Mi perfil
+          </a>
+
+          <a routerLink="/publicaciones">
+            <i class="bi bi-file-text"></i>
+            Publicaciones
+          </a>
+
+          <button (click)="logout()">
+            <i class="bi bi-box-arrow-right"></i>
+            Cerrar sesión
+          </button>
+
+        } @else {
+
+          <a routerLink="/auth/login">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Login
+          </a>
+
+          <a routerLink="/auth/registro">
+            <i class="bi bi-person-plus"></i>
+            Registro
+          </a>
+
+        }
+
+      </div>
+
+    }
+
+  </nav>}
 
 <router-outlet />
 

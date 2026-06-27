@@ -1,4 +1,4 @@
-import { Component, effect, EventEmitter, inject, input, Output, signal } from '@angular/core';
+import { Component, computed, effect, EventEmitter, inject, input, Output, signal } from '@angular/core';
 import { IPublicacion } from './publicacion.interface';
 import { PublicacionesService } from '../publicaciones.service';
 import { DatePipe } from '@angular/common';
@@ -8,6 +8,7 @@ import { Comentario } from "../comentario/comentario";
 import { IComentario } from '../comentario/comentario.interface';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthStateService } from '../../../auth/auth-state.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-publicacion',
@@ -23,11 +24,19 @@ export class Publicacion {
 
   comentarios = signal<IComentario[]>([]);
 
+  modo = input<'card' | 'modal'>('card');
+
   @Output() likeChanged = new EventEmitter<IPublicacion>();
 
   @Output() postDeleted = new EventEmitter<string>();
 
   animarLikes = false;
+  showDeleteModal = false;
+
+  hayMas = computed(() => this.comentarios().length < this.total());
+  total = signal(0);
+  offset = 0;
+  readonly PAGE_SIZE = 5;
 
   constructor(
       private fb: FormBuilder,
@@ -46,63 +55,87 @@ export class Publicacion {
     return this.miForm.get('description');
   }
 
-  cargarComentarios(id: string) {
-          console.log('Cargando comentarios de', id);
-          this.comentariosService.find(id).subscribe({
-              next: comentarios => {
-                  this.comentarios.set(comentarios);
-              }
-              });
-          }
+  async cargarComentarios(id: string) {
+    // console.log('Cargando comentarios de', id);
+    // this.comentariosService.find(id).subscribe({
+    //   next: comentarios => {
+    //     this.comentarios.set(comentarios);
+    //   }
+    // });
+    //   const comentarios = await firstValueFrom(
+    //   this.comentariosService.find(
+    //     id,
+    //     0,
+    //     this.PAGE_SIZE
+    //   )
+    // );
+
+    // this.comentarios.set(comentarios);
+
+    // this.offset = comentarios.length;
+
+    // this.hayMas.set(
+    //   comentarios.length === this.PAGE_SIZE
+    // );
+    const respuesta = await firstValueFrom(
+      this.comentariosService.find(
+        id,
+        0,
+        this.PAGE_SIZE
+      )
+    );
+
+    this.comentarios.set(respuesta.data);
+
+    this.total.set(respuesta.total);
+
+    this.offset = respuesta.data.length;
+  }
+
+  async cargarMasComentarios(id: string) {
+
+    const respuesta = await firstValueFrom(this.comentariosService.find(id, this.offset, this.PAGE_SIZE));
+
+    this.comentarios.update(actuales => [
+      ...actuales,
+      ...respuesta.data
+    ]);
+
+    this.offset += respuesta.data.length;
+  }
 
   toggleLike() {
   if (this.authService.isLoggedIn()) {
-      this.publicacionesService
-        .toggleLike(this.publicacion()._id)
-        .subscribe(publiActualizada => {
-
-          this.animarLikes = true;
-
-          setTimeout(() => {
-            this.animarLikes = false;
-          }, 300);
-
-          this.likeChanged.emit(publiActualizada);
-        });
+    this.publicacionesService.toggleLike(this.publicacion()._id).subscribe(publiActualizada => {
+      this.animarLikes = true;
+      setTimeout(() => {this.animarLikes = false;}, 300);
+      this.likeChanged.emit(publiActualizada);
+      });
     }
   }
 
   deleteMyPost() {
     if (this.authService.isLoggedIn()) {
-      this.publicacionesService
-        .deletePost(this.publicacion()._id)
-        .subscribe({
-          next: () => {
-            this.postDeleted.emit(this.publicacion()._id);
-          },
-          error: (error) => {
-            console.error(error);
-          }
-        });
+      this.publicacionesService.deletePost(this.publicacion()._id).subscribe({
+        next: () => {this.postDeleted.emit(this.publicacion()._id);},
+        error: (error) => {
+          console.error(error);
+        }
+      });
     }
   }
-
-  showDeleteModal = false;
 
   pedirConfirmacion() {
     this.showDeleteModal = true;
   }
 
   cerrarModal() {
-    console.log('cerrar modal', this.showDeleteModal);
     this.showDeleteModal = false;
   }
 
   confirmarDelete() {
-    console.log('antes', this.showDeleteModal);
     this.deleteMyPost();
     this.showDeleteModal = false;
-    console.log('dsps', this.showDeleteModal);
   }
 
   actualizarComentario(commentActualizado: IComentario) {
@@ -133,7 +166,6 @@ export class Publicacion {
       await this.comentariosService.crearComentario(this.publicacion()._id, datos);
       this.miForm.reset();
       this.cargarComentarios(this.publicacion()._id);
-      console.log("probando front post comments");
     }
     catch(error) {
       console.log(error);

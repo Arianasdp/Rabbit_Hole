@@ -28,4 +28,8 @@ export class AuthApiService {
   traerme() {
     return this.http.get<Usuario>(`${this.apiUrl}/auth/me`);
   }
+
+  autorizar() {
+    return this.http.post<{ jwt: string }>(`${this.apiUrl}/auth/autorizar`, {});
+  }
 }

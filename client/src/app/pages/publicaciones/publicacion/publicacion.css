@@ -336,3 +336,24 @@ hr {
 .input-count p {
   margin: 0;
 }
+
+.cargar-mas{
+  width: 100%;
+
+  padding: 0.85rem;
+
+  border: none;
+  border-radius: 15px;
+
+  background: #00000096;
+  color: white;
+
+  font-size: 1rem;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.cargar-mas:hover {
+  background: #6a6792;
+}

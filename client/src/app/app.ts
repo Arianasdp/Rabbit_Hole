@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { Modal } from "./common/modal/modal";
 import { ClickOutsideDirective } from './directives/click-outside.directive';
@@ -16,6 +16,19 @@ export class App {
 
   authService = inject(AuthService);
   authState = inject(AuthStateService);
+
+  mostrarNavbar = true;
+
+  constructor(private router: Router) {
+
+    this.router.events.subscribe(() => {
+
+      this.mostrarNavbar = ![
+        '/loading'
+      ].includes(this.router.url);
+
+    });
+  }
 
   menuOpen = false;
 
