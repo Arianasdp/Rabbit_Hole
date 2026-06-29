@@ -21,10 +21,12 @@ export class AuthService {
     console.log('TOKEN en constructor: ', this.tokenService.getToken());
     const payload = this.tokenService.getPayload();
     console.log('payload en constructor: ', payload);
+    
 
     if (payload) {
       this.authState.usuario.set(payload);
       console.log(this.authState.usuario);
+      console.log('role: ', this.authState.usuario()?.role);
       this.restaurarSesion();
     }
   }
@@ -127,5 +129,15 @@ export class AuthService {
     } catch {
       return false;
       }
+  }
+
+  async traerUser(id: string) {
+    try {
+      const user = await firstValueFrom(this.authApi.getUserById(id));
+      return user;
+    } catch (error) {
+      console.error('Error auth/user: ', error);
+      return null;
+    }
   }
 }

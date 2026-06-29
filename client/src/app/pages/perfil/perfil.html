@@ -1,0 +1,40 @@
+<div class="contenedor">
+
+    <div class="card">
+        <div class="profile-pic">
+            <img [src]="user()?.img" alt={{user()?.name}}>
+        </div>
+        <div class="bottom">
+            <div class="content">
+                <span class="name">{{user()?.name}} {{user()?.surname}} ({{user()?.username}})</span>
+                <div class="about-me">
+                    <p>Perfil: {{user()?.profile}}</p>
+                    <p>Fecha de nacimiento: {{user()?.birthdate | date:'dd/MM/yyyy':'UTC'}}</p>
+                    <p>Email: {{user()?.email}}</p>
+                    <p>{{user()?.description}}</p>
+                </div>
+                
+            </div>
+            <div class="bottom-bottom">
+                <span> Detalles </span>
+            </div>
+        </div>
+    </div>
+        @for (publicacion of publicaciones(); track publicacion._id) {
+            <app-publicacion
+            [publicacion]="publicacion"
+            (abrir)="abrirModal($event)"
+            (likeChanged)="actualizarPublicacion($event)"
+            (postDeleted)="eliminarPublicacion($event)">
+            </app-publicacion>
+        }
+        @if (publicacionSeleccionada()) {
+            
+            <app-modo-cine
+                [publicacion]="publicacionSeleccionada()!"
+                (cerrar)="cerrarModal()"
+                (likeChanged)="actualizarPublicacion($event)"
+                (postDeleted)="eliminarPublicacion($event)">
+            </app-modo-cine>
+            }
+    </div>

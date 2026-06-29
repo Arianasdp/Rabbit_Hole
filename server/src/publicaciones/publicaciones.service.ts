@@ -94,6 +94,7 @@ export class PublicacionesService {
           likesCount: 1,
           likedByUser: 1,
           author: {
+            _id: '$authorData._id',
             username: '$authorData.username',
             img: '$authorData.img',
           },
@@ -148,6 +149,7 @@ export class PublicacionesService {
           likesCount: 1,
           likedByUser: 1,
           author: {
+            _id: '$authorData._id',
             username: '$authorData.username',
             img: '$authorData.img',
           },

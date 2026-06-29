@@ -10,6 +10,7 @@ import {
   UseGuards,
   Get,
   Req,
+  Param,
 } from '@nestjs/common';
 import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import { AuthService } from './auth.service';
@@ -80,6 +81,12 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('me')
   me(@Req() req) {
-    return this.authService.traerme(req.user.sub);
+    return this.authService.traerUser(req.user.sub);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('users/:id')
+  user(@Param('id') id: string) {
+    return this.authService.traerUser(id);
   }
 }

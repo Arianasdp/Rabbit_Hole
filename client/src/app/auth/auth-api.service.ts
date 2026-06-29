@@ -32,4 +32,12 @@ export class AuthApiService {
   autorizar() {
     return this.http.post<{ jwt: string }>(`${this.apiUrl}/auth/autorizar`, {});
   }
+
+  getUserById(id: string) {
+    return this.http.get<Usuario>(`${environment.apiUrl}/auth/users/${id}`);
+  }
+
+  traerTodos() {
+    return this.http.get<Usuario[]>(`${environment.apiUrl}/usuarios`);
+  }
 }

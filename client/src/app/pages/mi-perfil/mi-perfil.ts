@@ -38,6 +38,10 @@ export class MiPerfil {
         publicaciones.filter(publi => publi._id !== id)
       );
       this.cargarMisPublicaciones();
+
+      if (this.publicacionSeleccionada()?._id === id) {
+      this.cerrarModal();
+    }
     }
 
   cargarMisPublicaciones() {

@@ -10,7 +10,7 @@
         <div class="besides">
 
             <span class="date">{{ publicacion().created | date:'dd/MM/yyyy HH:mm' }}</span>
-            @if (authService.profile()?.username === publicacion().author.username) {
+            @if (authService.profile()?.username === publicacion().author.username || authService.profile()?.profile === 'administrador') {
                 <button class="deleteButton"  (click)="pedirConfirmacion()">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

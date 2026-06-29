@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { estaLogueadoGuard } from './guards/esta-logueado-guard';
 import { authVerificationGuard } from './guards/auth-verification-guard';
 import { homeGuard } from './guards/home.guard';
+import { esAdminGuard } from './guards/es-admin-guard';
 
 export const routes: Routes = [
     {
@@ -18,6 +19,16 @@ export const routes: Routes = [
         path: "mi-perfil",
         loadComponent: () => import('./pages/mi-perfil/mi-perfil').then((m) => m.MiPerfil),
         canActivate: [estaLogueadoGuard]
+    },
+    {
+        path: "perfil/:id",
+        loadComponent: () => import('./pages/perfil/perfil').then((m) => m.Perfil),
+        canActivate: [estaLogueadoGuard]
+    },
+    {
+        path: "admin",
+        loadComponent: () => import('./pages/admin/admin').then((m) => m.Admin),
+        canActivate: [estaLogueadoGuard, esAdminGuard]
     },
     {
         path: 'auth',

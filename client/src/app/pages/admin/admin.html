@@ -1,0 +1,14 @@
+<div class="page">
+    @for (usuario of usuarios(); track usuario._id) {
+        <img [src]="usuario.img" alt={{usuario.name}}>
+        <p>{{usuario._id}}</p>
+        <p>{{usuario.name}}</p>
+        <p>{{usuario.surname}}</p>
+        <p>{{usuario.username}}</p>
+        <p>{{usuario.profile}}</p>
+        <p>{{usuario.birthdate}}</p>
+        <p>{{usuario.email}}</p>
+        <p>{{usuario.deleted}}</p>
+        <p>{{usuario.description}}</p>
+    }
+</div>

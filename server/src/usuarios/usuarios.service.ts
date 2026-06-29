@@ -64,7 +64,7 @@ export class UsuariosService {
 
   async traerPorId(id: string) {
     return this.UsuarioModel.findById(id).select(
-      'profile name surname username img email birthdate description',
+      '_id profile name surname username img email birthdate description',
     );
   }
 

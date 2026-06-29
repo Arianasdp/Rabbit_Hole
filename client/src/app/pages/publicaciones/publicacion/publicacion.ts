@@ -74,7 +74,12 @@ export class Publicacion {
   }
 
   irAPerfil(id: string) {
-    this.router.navigate(['/perfil', id]);
+    if(id !== this.authService.profile()?._id) {
+      this.router.navigate(['/perfil', id]);
+    } else {
+      this.router.navigate(['/mi-perfil']);
+    }
+    
   }
 
 }
