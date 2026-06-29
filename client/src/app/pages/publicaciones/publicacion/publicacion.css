@@ -1,13 +1,15 @@
-:host {
-    display: block;
-    width: 100%;
-    max-width: 600px;
+.page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card {
     padding: 20px;
-    width: 100%;
-    max-width: 600px;
+    width: 600px;
+    max-width: 100%;
     min-height: auto;
     background-color: #000000;
     background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
@@ -55,6 +57,7 @@ hr {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    cursor: pointer;
 }
 
 .card-title {
@@ -70,6 +73,7 @@ hr {
 .card-image img{
     width: 100%;
     height: auto;
+    object-fit: cover;
     max-height: 500px;
 
     border-radius: 15px;
@@ -211,149 +215,64 @@ hr {
   opacity: 1;
 }
 
-/* comentarios */
-.comentarios-section{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* versión modal */
+.card.modo-cine {
+    width: 100%;
+    height: 100%;
+    min-height: auto;
+    margin: 1rem;
+    border-radius: 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
 }
 
-.card-comment {
-  width: 100%;
-  height: fit-content;
-  background-color: #000000;
-  background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
-  box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 17px 17px 27px 27px;
-  margin: 1rem;
+.card.modo-cine:not(:has(.post-content .card-image)) {
+    height: auto;
 }
 
-.title-comment {
-  width: 100%;
-  height: 50px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  border-bottom: 1px solid #47484b;
-  font-weight: 700;
-  font-size: 13px;
-  color: white;
+.card.modo-cine .post-content {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+    overflow: hidden;
+    gap: 0;
+    cursor: default;
 }
 
-.title-comment::after {
-  content: '';
-  width: 8ch;
-  height: 1px;
-  position: absolute;
-  bottom: -1px;
-  background-color: white;
+.card.modo-cine .card-image {
+    position: absolute;
+    inset: 0;
+    min-height: unset;
+    flex: unset;
 }
 
-/* form reply */
-.text-box {
-  width: 100%;
-  height: fit-content;
-  background-color: #000000;
-  background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
-  padding: 8px;
-  border-radius: 15px;
-  margin-bottom: 0.5rem;
+.card.modo-cine .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    max-height: none;
+    border-radius: 25px;
 }
 
-.text-box .box-container {
-  background-color: #000000;
-  border-radius: 8px 8px 21px 21px;
-  padding: 8px;
+.card.modo-cine .post-content:has(.card-image)::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, transparent 30%, rgba(0,0,0,0.88) 100%);
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 25px;
 }
 
-.text-box textarea {
-  background-color: #000000;
-  color: white;
-  width: 100%;
-  height: 40px;
-  resize: none;
-  overflow: hidden;
-  border: 0;
-  border-radius: 6px;
-  padding: 12px 12px 10px 12px;
-  font-size: 13px;
-  outline: none;
-  caret-color: #6a6792;
+.card.modo-cine .card-title,
+.card.modo-cine .card-body {
+    position: relative;
+    z-index: 200;
+    padding: 0.25rem 0.5rem;
 }
 
-.text-box .formatting {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0.5rem;
-}
-
-.text-box .formatting button {
-  width: 30px;
-  height: 30px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: transparent;
-  border-radius: 50%;
-  border: 0;
-  outline: none;
-}
-
-.text-box .formatting button:hover {
-  background-color: #f1f1f1;
-}
-
-.text-box .formatting .send {
-  width: 30px;
-  height: 30px;
-  background-color: #6a6792;
-  margin: 0 0 0 auto;
-  cursor: pointer;
-}
-
-.text-box .formatting .send:hover {
-  background-color: #a8a4e4;
-}
-
-.text-box .formatting .send:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.error {
-    color: #ff6b6b;
-    font-size: 0.85rem;
-    margin-bottom: 0;
-}
-
-.input-count {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.input-count p {
-  margin: 0;
-}
-
-.cargar-mas{
-  width: 100%;
-
-  padding: 0.85rem;
-
-  border: none;
-  border-radius: 15px;
-
-  background: #00000096;
-  color: white;
-
-  font-size: 1rem;
-  cursor: pointer;
-
-  transition: all 0.3s ease;
-}
-
-.cargar-mas:hover {
-  background: #6a6792;
+.card.modo-cine .like-button {
+    flex-shrink: 0;
 }

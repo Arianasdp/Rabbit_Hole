@@ -6,10 +6,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { AuthStateService } from '../../auth/auth-state.service';
+import { ModoCine } from "../../common/modo-cine/modo-cine";
 
 @Component({
   selector: 'app-publicaciones',
-  imports: [Publicacion, ReactiveFormsModule],
+  imports: [Publicacion, ReactiveFormsModule, ModoCine],
   templateUrl: './publicaciones.html',
   styleUrl: './publicaciones.css',
 })
@@ -19,6 +20,9 @@ export class Publicaciones {
   author = signal('');
   private authorSearch$ = new Subject<string>();
   publicacionesService = inject(PublicacionesService);
+  publicacionSeleccionada = signal<IPublicacion | null>(null);
+  publicaciones = this.publicacionesService.publicaciones;
+  selectedFile: File | null = null;
   miForm: FormGroup;
 
   constructor(
@@ -37,8 +41,6 @@ export class Publicaciones {
       this.author.set(valor);
     });
   }
-
-  publicaciones = this.publicacionesService.publicaciones;
 
   get title() {
     return this.miForm.get('title');
@@ -81,8 +83,6 @@ export class Publicaciones {
     }
   }
 
-  selectedFile: File | null = null;
-
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
 
@@ -108,10 +108,24 @@ export class Publicaciones {
     this.publicaciones.update(publicaciones =>
       publicaciones.filter(publi => publi._id !== id)
     );
+
+    if (this.publicacionSeleccionada()?._id === id) {
+      this.cerrarModal();
+    }
   }
 
   filtrarUsuario(event: Event) {
     const valor = (event.target as HTMLInputElement).value;
     this.authorSearch$.next(valor);
+  }
+
+  abrirModal(publicacion: IPublicacion) {
+    this.publicacionSeleccionada.set(publicacion);
+    document.body.style.overflow = 'hidden';
+  }
+
+  cerrarModal() {
+    this.publicacionSeleccionada.set(null);
+    document.body.style.overflow = 'auto';
   }
 }

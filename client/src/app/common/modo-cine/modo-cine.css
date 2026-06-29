@@ -1,0 +1,215 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, .5);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1100px;
+    height: 100%;
+    overflow: hidden;
+
+}
+
+.publicacion-wrapper {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+app-publicacion {
+    width: 100%;
+    height: 100%;
+}
+
+.comentarios-section {
+    flex: 1;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0;
+    /* overflow: hidden; */
+}
+
+.card-comment {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%;
+    background-color: #000000;
+    background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
+    box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 17px 17px 27px 27px;
+    margin: 1rem;
+}
+
+.title-comment {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    border-bottom: 1px solid #47484b;
+    font-weight: 700;
+    font-size: 13px;
+    color: white;
+}
+
+.title-comment::after {
+    content: '';
+    width: 8ch;
+    height: 1px;
+    position: absolute;
+    bottom: -1px;
+    background-color: white;
+}
+
+.comentarios-lista {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    padding: 0.5rem 0;
+}
+
+/* form reply */
+.text-box {
+    width: 100%;
+    height: fit-content;
+    background-color: #000000;
+    background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
+    padding: 8px;
+    border-radius: 15px;
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+} 
+
+.text-box .box-container {
+    background-color: #000000;
+    border-radius: 8px 8px 21px 21px;
+    padding: 8px;
+}
+
+.text-box textarea {
+    background-color: #000000;
+    color: white;
+    width: 100%;
+    height: 40px;
+    resize: none;
+    overflow: hidden;
+    border: 0;
+    border-radius: 6px;
+    padding: 12px 12px 10px 12px;
+    font-size: 13px;
+    outline: none;
+    caret-color: #6a6792;
+}
+
+.text-box .formatting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem;
+}
+
+.text-box .formatting button {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border-radius: 50%;
+    border: 0;
+    outline: none;
+}
+
+.text-box .formatting button:hover {
+    background-color: #f1f1f1;
+}
+
+.text-box .formatting .send {
+    width: 30px;
+    height: 30px;
+    background-color: #6a6792;
+    margin: 0 0 0 auto;
+    cursor: pointer;
+}
+
+.text-box .formatting .send:hover {
+    background-color: #a8a4e4;
+}
+
+.text-box .formatting .send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.error {
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+}
+
+.input-count {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.input-count p {
+    margin: 0;
+}
+
+.cargar-mas{
+    width: 100%;
+
+    padding: 0.85rem;
+
+    border: none;
+    border-radius: 15px;
+
+    background: #00000096;
+    color: white;
+
+    font-size: 1rem;
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+}
+
+.cargar-mas:hover {
+    background: #6a6792;
+}
+
+.sin-comentarios {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    margin: 1rem;
+
+    color: #888;
+    background-color: #000000;
+    background-image: linear-gradient(to bottom, #201f2c50 0%, #6a679250 100%);
+}

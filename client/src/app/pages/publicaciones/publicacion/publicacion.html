@@ -1,153 +1,161 @@
 <div class="page">
-<div class="card">
+    <div class="card" [class.modo-cine]="modo() === 'modo-cine'">
 
-    <div class="profile-info">
-        <div class="profile-left">
-            <img class="user" [src]="publicacion().author.img" alt="username">
-            <span class="by-name">{{ publicacion().author.username }}</span>
+        <div class="profile-info">
+            <div class="profile-left">
+                <img class="user" [src]="publicacion().author.img" alt="username">
+                <span class="by-name">{{ publicacion().author.username }}</span>
+            </div>
+        
+        <div class="besides">
+
+            <span class="date">{{ publicacion().created | date:'dd/MM/yyyy HH:mm' }}</span>
+            @if (authService.profile()?.username === publicacion().author.username) {
+                <button class="deleteButton"  (click)="pedirConfirmacion()">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 50 59"
+                    class="bin"
+                >
+                    <path
+                    fill="#B5BAC1"
+                    d="M0 7.5C0 5.01472 2.01472 3 4.5 3H45.5C47.9853 3 50 5.01472 50 7.5V7.5C50 8.32843 49.3284 9 48.5 9H1.5C0.671571 9 0 8.32843 0 7.5V7.5Z"
+                    ></path>
+                    <path
+                    fill="#B5BAC1"
+                    d="M17 3C17 1.34315 18.3431 0 20 0H29.3125C30.9694 0 32.3125 1.34315 32.3125 3V3H17V3Z"
+                    ></path>
+                    <path
+                    fill="#B5BAC1"
+                    d="M2.18565 18.0974C2.08466 15.821 3.903 13.9202 6.18172 13.9202H43.8189C46.0976 13.9202 47.916 15.821 47.815 18.0975L46.1699 55.1775C46.0751 57.3155 44.314 59.0002 42.1739 59.0002H7.8268C5.68661 59.0002 3.92559 57.3155 3.83073 55.1775L2.18565 18.0974ZM18.0003 49.5402C16.6196 49.5402 15.5003 48.4209 15.5003 47.0402V24.9602C15.5003 23.5795 16.6196 22.4602 18.0003 22.4602C19.381 22.4602 20.5003 23.5795 20.5003 24.9602V47.0402C20.5003 48.4209 19.381 49.5402 18.0003 49.5402ZM29.5003 47.0402C29.5003 48.4209 30.6196 49.5402 32.0003 49.5402C33.381 49.5402 34.5003 48.4209 34.5003 47.0402V24.9602C34.5003 23.5795 33.381 22.4602 32.0003 22.4602C30.6196 22.4602 29.5003 23.5795 29.5003 24.9602V47.0402Z"
+                    clip-rule="evenodd"
+                    fill-rule="evenodd"
+                    ></path>
+                    <path fill="#B5BAC1" d="M2 13H48L47.6742 21.28H2.32031L2 13Z"></path>
+                </svg>
+
+                <span class="tooltip">Delete</span>
+                </button>
+
+                @if (showDeleteModal) {
+                    <app-modal
+                    titulo="Eliminar publicación"
+                    mensaje="¿Estás seguro?"
+                    (aceptar)="confirmarDelete()"
+                    (cancelar)="cerrarModal()"
+                    />
+                }
+
+            }
+                </div>
         </div>
-    
-    <div class="besides">
 
-        <span class="date">{{ publicacion().created | date:'dd/MM/yyyy HH:mm' }}</span>
-        @if (authService.profile()?.username === publicacion().author.username) {
-            <button class="deleteButton"  (click)="pedirConfirmacion()">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 50 59"
-                class="bin"
-            >
-                <path
-                fill="#B5BAC1"
-                d="M0 7.5C0 5.01472 2.01472 3 4.5 3H45.5C47.9853 3 50 5.01472 50 7.5V7.5C50 8.32843 49.3284 9 48.5 9H1.5C0.671571 9 0 8.32843 0 7.5V7.5Z"
-                ></path>
-                <path
-                fill="#B5BAC1"
-                d="M17 3C17 1.34315 18.3431 0 20 0H29.3125C30.9694 0 32.3125 1.34315 32.3125 3V3H17V3Z"
-                ></path>
-                <path
-                fill="#B5BAC1"
-                d="M2.18565 18.0974C2.08466 15.821 3.903 13.9202 6.18172 13.9202H43.8189C46.0976 13.9202 47.916 15.821 47.815 18.0975L46.1699 55.1775C46.0751 57.3155 44.314 59.0002 42.1739 59.0002H7.8268C5.68661 59.0002 3.92559 57.3155 3.83073 55.1775L2.18565 18.0974ZM18.0003 49.5402C16.6196 49.5402 15.5003 48.4209 15.5003 47.0402V24.9602C15.5003 23.5795 16.6196 22.4602 18.0003 22.4602C19.381 22.4602 20.5003 23.5795 20.5003 24.9602V47.0402C20.5003 48.4209 19.381 49.5402 18.0003 49.5402ZM29.5003 47.0402C29.5003 48.4209 30.6196 49.5402 32.0003 49.5402C33.381 49.5402 34.5003 48.4209 34.5003 47.0402V24.9602C34.5003 23.5795 33.381 22.4602 32.0003 22.4602C30.6196 22.4602 29.5003 23.5795 29.5003 24.9602V47.0402Z"
-                clip-rule="evenodd"
-                fill-rule="evenodd"
-                ></path>
-                <path fill="#B5BAC1" d="M2 13H48L47.6742 21.28H2.32031L2 13Z"></path>
-            </svg>
+        <hr>
 
-            <span class="tooltip">Delete</span>
-            </button>
+        <div class="post-content"  (click)="abrirPublicacion()">
 
-            @if (showDeleteModal) {
-                <app-modal
-                titulo="Eliminar publicación"
-                mensaje="¿Estás seguro?"
-                (aceptar)="confirmarDelete()"
-                (cancelar)="cerrarModal()"
+            @if(publicacion().img) {
+                <div class="card-image">
+                    <img class="user" [src]="publicacion().img" alt="publicacion">
+                </div>
+            }
+            
+
+            <p class="card-title">
+                {{publicacion().title}}
+            </p>
+
+            <p class="card-body">
+                {{publicacion().description}}
+            </p>
+        </div>
+
+        <hr>
+        
+        <div class="like-button" (click)="toggleLike()">
+            <input
+                class="on"
+                [id]="'heart-' + publicacion()._id"
+                type="checkbox"
+                [checked]="publicacion().likedByUser"
                 />
+                <label
+                    class="like"
+                    [for]="'heart-' + publicacion()._id"
+                    >
+                <svg
+                class="like-icon"
+                fill-rule="nonzero"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                >
+                <path
+                    d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
+                ></path>
+                </svg>
+            </label> 
+            <span class="like-count">
+                {{ publicacion().likesCount }}
+            </span>
+            </div>
+
+    </div>
+</div>    
+    <!-- @if(modo() === 'modal') {
+    <div class="comentarios-section">
+        @if (authService.isLoggedIn()) {
+            <div class="text-box">
+                <form [formGroup]="miForm" (ngSubmit)="accion()" class="box-container">
+                    <div [class.invalid]="description?.invalid && (description?.dirty || description?.touched)">
+                            <textarea formControlName="description" placeholder="Responder" maxlength="140" ></textarea>
+                        </div>
+                    <div>
+                    <div class="formatting">
+                        <div class="input-count">
+                                <p>{{ miForm.get('description')?.value?.length || 0 }}/140</p>
+                                @if (description?.touched && description?.hasError('required')) {
+                            <p class="error">La descripción es obligatoria</p>
+                            }
+
+                            @if (description?.dirty && description?.hasError('minlength')) {
+                            <p class="error">La descripción debe tener al menos 2 caracteres</p>
+                            }
+
+                            @if (description?.dirty && description?.hasError('maxlength')) {
+                            <p class="error">La descripción no puede superar los 140 caracteres</p>
+                            }
+                            </div>
+                        <button type="submit" [disabled]="miForm.invalid" class="send" title="Enviar">
+                            <svg fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M12 5L12 20"></path>
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9"></path>
+                            </svg>
+                        </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        }
+        @if(comentarios().length > 0) {
+            <div class="card-comment">
+            <span class="title-comment">Comentarios</span>
+            <div class="comentarios-lista">
+            @for (comentario of comentarios(); track comentario._id) {
+                <app-comentario
+                [comentario]="comentario"
+                [publicacionId]="publicacion()._id"
+                (comentarioEdited)="actualizarComentario($event)">
+                </app-comentario>
+            }</div>
+            @if(hayMas()) {
+            <button class="cargar-mas" (click)="cargarMasComentarios(publicacion()._id)">cargar más</button>}
+        </div>
+        }@else {
+            <div class="sin-comentarios">
+                No hay comentarios todavía
+            </div>
             }
 
-        }
-            </div>
     </div>
-
-    <hr>
-
-    <div class="post-content">
-
-        @if(publicacion().img) {
-            <div class="card-image">
-                <img class="user" [src]="publicacion().img" alt="publicacion">
-            </div>
-        }
-        
-
-        <p class="card-title">
-            {{publicacion().title}}
-        </p>
-
-        <p class="card-body">
-            {{publicacion().description}}
-        </p>
-    </div>
-
-    <hr>
-    
-    <div class="like-button" (click)="toggleLike()">
-        <input
-            class="on"
-            [id]="'heart-' + publicacion()._id"
-            type="checkbox"
-            [checked]="publicacion().likedByUser"
-            />
-            <label
-                class="like"
-                [for]="'heart-' + publicacion()._id"
-                >
-            <svg
-            class="like-icon"
-            fill-rule="nonzero"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            >
-            <path
-                d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
-            ></path>
-            </svg>
-        </label> 
-        <span class="like-count">
-            {{ publicacion().likesCount }}
-        </span>
-        </div>
-
-</div>
-<div class="comentarios-section">
-    @if (authService.isLoggedIn()) {
-    <div class="text-box">
-        <form [formGroup]="miForm" (ngSubmit)="accion()" class="box-container">
-            <div [class.invalid]="description?.invalid && (description?.dirty || description?.touched)">
-                    <textarea formControlName="description" placeholder="Responder" maxlength="140" ></textarea>
-                </div>
-            <div>
-            <div class="formatting">
-                <div class="input-count">
-                        <p>{{ miForm.get('description')?.value?.length || 0 }}/140</p>
-                        @if (description?.touched && description?.hasError('required')) {
-                    <p class="error">La descripción es obligatoria</p>
-                    }
-
-                    @if (description?.dirty && description?.hasError('minlength')) {
-                    <p class="error">La descripción debe tener al menos 2 caracteres</p>
-                    }
-
-                    @if (description?.dirty && description?.hasError('maxlength')) {
-                    <p class="error">La descripción no puede superar los 140 caracteres</p>
-                    }
-                    </div>
-                <button type="submit" [disabled]="miForm.invalid" class="send" title="Enviar">
-                    <svg fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M12 5L12 20"></path>
-                    <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9"></path>
-                    </svg>
-                </button>
-                </div>
-            </div>
-        </form>
-    </div>}
-    @if(publicacion()) {
-    @if(comentarios().length > 0) {
-        <div class="card-comment">
-        <span class="title-comment">Comentarios</span>
-        @for (comentario of comentarios(); track comentario._id) {
-            <app-comentario
-            [comentario]="comentario"
-            [publicacionId]="publicacion()._id"
-            (comentarioEdited)="actualizarComentario($event)">
-            </app-comentario>
-        }
-        @if(hayMas()) {
-        <button class="cargar-mas" (click)="cargarMasComentarios(publicacion()._id)">cargar más</button>}
-    </div>
-    }}
-</div>
-</div>
+    } -->
