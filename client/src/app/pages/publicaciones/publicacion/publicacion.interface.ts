@@ -10,6 +10,7 @@ export interface IPublicacion {
 }
 
 export interface Author {
+    _id: string;
     username: string;
     img: string;
 }

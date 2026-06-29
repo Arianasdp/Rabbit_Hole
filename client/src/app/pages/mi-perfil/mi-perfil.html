@@ -24,9 +24,20 @@
     @for (publicacion of misPublicaciones(); track publicacion._id) {
         <app-publicacion
         [publicacion]="publicacion"
+        (abrir)="abrirModal($event)"
+        (likeChanged)="actualizarPublicacion($event)"
         (postDeleted)="eliminarPublicacion($event)">
         </app-publicacion>
     }
+    @if (publicacionSeleccionada()) {
+        
+        <app-modo-cine
+            [publicacion]="publicacionSeleccionada()!"
+            (cerrar)="cerrarModal()"
+            (likeChanged)="actualizarPublicacion($event)"
+            (postDeleted)="eliminarPublicacion($event)">
+        </app-modo-cine>
+        }
 </div>
 
 

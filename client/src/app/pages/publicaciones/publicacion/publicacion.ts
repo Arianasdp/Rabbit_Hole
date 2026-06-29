@@ -1,9 +1,10 @@
-import { Component, EventEmitter, input, Output} from '@angular/core';
+import { Component, EventEmitter, inject, input, Output} from '@angular/core';
 import { IPublicacion } from './publicacion.interface';
 import { PublicacionesService } from '../publicaciones.service';
 import { DatePipe } from '@angular/common';
 import { Modal } from '../../../common/modal/modal';
 import { AuthStateService } from '../../../auth/auth-state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-publicacion',
@@ -16,6 +17,8 @@ export class Publicacion {
   publicacion = input.required<IPublicacion>();
 
   modo = input<'card' | 'modo-cine'>('card');
+
+  router = inject(Router);
 
   @Output() likeChanged = new EventEmitter<IPublicacion>();
 
@@ -68,6 +71,10 @@ export class Publicacion {
   abrirPublicacion() {
     console.log('click en publicación');
     this.abrir.emit(this.publicacion());
+  }
+
+  irAPerfil(id: string) {
+    this.router.navigate(['/perfil', id]);
   }
 
 }
