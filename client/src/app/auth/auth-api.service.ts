@@ -40,4 +40,8 @@ export class AuthApiService {
   traerTodos() {
     return this.http.get<Usuario[]>(`${environment.apiUrl}/usuarios`);
   }
+
+  toggleDeleted(id: string) {
+    return this.http.patch<Usuario>(`${environment.apiUrl}/usuarios/${id}/toggle-delete`, {});
+  }
 }

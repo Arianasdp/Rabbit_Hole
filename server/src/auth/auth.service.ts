@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import * as bcrypt from 'bcrypt';
 import { UsuariosService } from '../usuarios/usuarios.service';
@@ -34,6 +34,10 @@ export class AuthService {
   async loguear(loginUsuarioDto: LoginUsuarioDto) {
     const usuarioEncontrado =
       await this.usuariosService.traerPorMail(loginUsuarioDto);
+
+    if (usuarioEncontrado.deleted) {
+      throw new ForbiddenException('El usuario ha sido deshabilitado');
+    }
 
     return this.createToken(usuarioEncontrado);
   }

@@ -14,20 +14,6 @@ export class Loading {
   router = inject(Router);
 
   async ngOnInit() {
-
-    // await new Promise(resolve => setTimeout(resolve, 1000));
-    // console.log("entramos a loading");
-
-    // const autorizado = await this.authService.autenticarToken();
-
-    // if (autorizado) {
-    //   console.log("entramos a autorizado");
-    //   this.router.navigateByUrl('/publicaciones');
-    // }
-    // else {
-    //   console.log("entramos a no autorizado");
-    //   this.router.navigateByUrl('/auth/login');
-    // }
     try {
       const autorizado = await this.authService.autenticarToken();
 

@@ -47,9 +47,9 @@ export class Login {
 
       this.router.navigate(['/publicaciones']);
 
-    } catch (error) {
+    } catch (error: any) {
 
-      this.loginError.set('Credenciales inválidas');
+      this.loginError.set(error.error?.message || 'Credenciales inválidas');
 
     }
   }

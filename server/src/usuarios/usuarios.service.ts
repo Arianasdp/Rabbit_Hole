@@ -73,14 +73,32 @@ export class UsuariosService {
   }
 
   async delete(id: string) {
-    await this.UsuarioModel.findByIdAndUpdate(id, {
-      deleted: true,
-    });
+    await this.UsuarioModel.findByIdAndUpdate(
+      id,
+      { deleted: true },
+      { returnDocument: 'after' },
+    );
   }
 
   async habilitar(id: string) {
-    await this.UsuarioModel.findByIdAndUpdate(id, {
-      deleted: false,
-    });
+    await this.UsuarioModel.findByIdAndUpdate(
+      id,
+      { deleted: false },
+      { returnDocument: 'after' },
+    );
+  }
+
+  async toggleDelete(id: string) {
+    const usuario = await this.UsuarioModel.findById(id);
+
+    if (!usuario) {
+      return null;
+    }
+
+    return this.UsuarioModel.findByIdAndUpdate(
+      id,
+      { deleted: !usuario.deleted },
+      { returnDocument: 'after' },
+    );
   }
 }

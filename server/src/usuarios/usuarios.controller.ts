@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../security/auth-verification.guard';
 import { UsuariosService } from './usuarios.service';
 
@@ -10,5 +10,11 @@ export class UsuariosController {
   @Get()
   traerUsuarios() {
     return this.usuariosService.traer();
+  }
+
+  @UseGuards(AuthGuard)
+  @Patch(':id/toggle-delete')
+  toggleDelete(@Param('id') id: string) {
+    return this.usuariosService.toggleDelete(id);
   }
 }
