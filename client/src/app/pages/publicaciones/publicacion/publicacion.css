@@ -277,3 +277,18 @@ hr {
 .card.modo-cine .like-button {
     flex-shrink: 0;
 }
+
+.ver-mas-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    color: white;
+    cursor: pointer;
+    font-size: inherit;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.ver-mas-btn:hover {
+    text-decoration: underline;
+}

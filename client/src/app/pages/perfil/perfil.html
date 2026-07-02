@@ -10,7 +10,7 @@
                 <div class="about-me">
                     <p>Perfil: {{user()?.profile}}</p>
                     <p>Fecha de nacimiento: {{user()?.birthdate | date:'dd/MM/yyyy':'UTC'}}</p>
-                    <p>Email: {{user()?.email}}</p>
+                    <p>Email: {{user()?.email | ocultarEmail}}</p>
                     <p>{{user()?.description}}</p>
                 </div>
                 

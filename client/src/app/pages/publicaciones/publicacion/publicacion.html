@@ -4,12 +4,12 @@
         <div class="profile-info">
             <div class="profile-left" (click)="irAPerfil(publicacion().author._id)">
                 <img class="user" [src]="publicacion().author.img" alt="username">
-                <span class="by-name">{{ publicacion().author.username }}</span>
+                <span  appHoverUsuario class="by-name">{{ publicacion().author.username }}</span>
             </div>
         
         <div class="besides">
 
-            <span class="date">{{ publicacion().created | date:'dd/MM/yyyy HH:mm' }}</span>
+            <span class="date">{{ publicacion().created | fechaRelativa }}</span>
             @if (authService.profile()?.username === publicacion().author.username || authService.profile()?.profile === 'administrador') {
                 <button class="deleteButton"  (click)="pedirConfirmacion()">
                 <svg
@@ -66,9 +66,22 @@
                 {{publicacion().title}}
             </p>
 
-            <p class="card-body">
-                {{publicacion().description}}
+            @if(modo() === 'modo-cine') {
+                <p class="card-body">
+                {{ mostrarCompleto
+                    ? publicacion().description
+                    : (publicacion().description | truncarTexto:50) }}
+                    <button (click)="mostrarCompleto = !mostrarCompleto" class="ver-mas-btn">
+                        {{ mostrarCompleto ? 'Ver menos' : 'Ver más' }}
+                    </button>
             </p>
+            }
+            @else {
+                <p class="card-body">
+                    {{publicacion().description}}
+                </p>
+            }
+            
         </div>
 
         <hr>
@@ -95,10 +108,10 @@
                 ></path>
                 </svg>
             </label> 
-            <span class="like-count">
+            <span class="like-count" [appPopularidad]="publicacion().likesCount">
                 {{ publicacion().likesCount }}
             </span>
-            </div>
+        </div>
 
     </div>
 </div>

@@ -7,10 +7,11 @@ import { PublicacionesService } from '../publicaciones/publicaciones.service';
 import { ActivatedRoute } from '@angular/router';
 import { Usuario } from '../../auth/interfaces/usuario';
 import { AuthService } from '../../auth/auth.service';
+import { OcultarEmailPipe } from '../../pipes/ocultar-email-pipe';
 
 @Component({
   selector: 'app-perfil',
-  imports: [DatePipe, Publicacion, ModoCine],
+  imports: [DatePipe, Publicacion, ModoCine, OcultarEmailPipe],
   templateUrl: './perfil.html',
   styleUrl: './perfil.css',
 })
