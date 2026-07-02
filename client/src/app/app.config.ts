@@ -13,8 +13,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([authInterceptor, tokenExpiredInterceptor])
     ),
-    provideServiceWorker('ngsw-worker.js', {
-      enabled: true
-    })
+    // provideServiceWorker('ngsw-worker.js', {
+    //   enabled: true
+    // })
   ]
 };
