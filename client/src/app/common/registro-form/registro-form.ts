@@ -106,6 +106,7 @@ export class RegistroForm {
         const usuario = await this.authService.registroAdmin(formData);
         this.usuarioCreado.emit(usuario);
         this.showRegistroModal = true;
+        this.miForm.reset();
       }
       
 

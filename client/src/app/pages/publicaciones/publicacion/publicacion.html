@@ -71,9 +71,10 @@
                 {{ mostrarCompleto
                     ? publicacion().description
                     : (publicacion().description | truncarTexto:50) }}
+                    @if(publicacion().description.length > 50) {
                     <button (click)="mostrarCompleto = !mostrarCompleto" class="ver-mas-btn">
                         {{ mostrarCompleto ? 'Ver menos' : 'Ver más' }}
-                    </button>
+                    </button>}
             </p>
             }
             @else {
