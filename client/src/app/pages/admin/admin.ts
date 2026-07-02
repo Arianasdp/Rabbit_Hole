@@ -53,18 +53,30 @@ export class Admin {
 
       if (datos.length) {
           this.crearGraficoPublicaciones(datos);
-        }
+      }
+      else {
+        this.chartPublicacion?.destroy();
+        this.chartPublicacion = undefined;
+      }
       
       const datosComentarios = this.adminService.comentariosPorPeriodo();
 
       if (datosComentarios.length) {
           this.crearGraficoComentarios(datosComentarios);
         }
+      else {
+        this.chartComentarios?.destroy();
+        this.chartComentarios = undefined;
+      }
 
       const datosComentariosPublicicacion = this.adminService.comentariosPorPublicacion();
 
       if (datosComentariosPublicicacion.length) {
         this.crearGraficoComentariosPublicacion(datosComentariosPublicicacion);
+      }
+      else {
+        this.chartComentariosPublicacion?.destroy();
+        this.chartComentariosPublicacion = undefined;
       }
     });
 
@@ -82,6 +94,10 @@ export class Admin {
 
     const desde = this.desde?.value;
     const hasta = this.hasta?.value;
+
+    this.adminService.publicacionesPorUsuario.set([]);
+    this.adminService.comentariosPorPeriodo.set([]);
+    this.adminService.comentariosPorPublicacion.set([]);
 
     this.adminService.cargarPublicacionesPorUsuario(desde, hasta);
 
