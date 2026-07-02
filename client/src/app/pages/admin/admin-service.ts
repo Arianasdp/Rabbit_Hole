@@ -11,9 +11,6 @@ export class AdminService {
 
   constructor(private http: HttpClient) {} 
 
-  // likeEvents = signal<ILikeEvent[]>([]);
-  // loginEvents = signal<ILoginEvent[]>([]);
-  // profileVisits = signal<IProfileVisit[]>([]);
   publicacionesPorUsuario = signal<IPublicacionesPorUsuario[]>([]);
   comentariosPorPeriodo = signal<IComentariosPorPeriodo[]>([]);
   comentariosPorPublicacion = signal<IComentariosPorPeriodoYPublicacion[]>([]);
@@ -69,32 +66,12 @@ export class AdminService {
     return this.http.get<ILikeEvent[]>(`${this.apiUrl}/estadisticas/likes`);
   }
 
-  // cargarLikesPorDia() {
-  //   this.likesPorDia().subscribe({
-  //     next: datos => this.likeEvents.set(datos)
-  //   });
-  // }
-
   loguinPorUsuario() {
     return this.http.get<ILoginEvent[]>(`${this.apiUrl}/estadisticas/logins`);
   }
-
-  // cargarLoginsPorUsuario() {
-  //   this.loguinPorUsuario().subscribe({
-  //     next: datos => this.loginEvents.set(datos)
-  //   });
-  // }
 
   visitasAMiPerfil() {
     console.log('visitas a mi perfil');
     return this.http.get<IProfileVisit[]>(`${this.apiUrl}/estadisticas/visitas`);
   }
-
-  // cargarVisitasAMiPerfil() {
-  //   this.visitasAMiPerfil().subscribe({
-  //     next: datos => {
-  //       console.log('datos visitas', datos);
-  //       this.profileVisits.set(datos)}
-  //   });
-  // }
 }

@@ -294,6 +294,7 @@ export class Admin {
   }
 
   crearGraficoLogins(datos: ILoginEvent[]) {
+    this.chartLogins?.destroy();
 
     this.chartLogins = new Chart(
       this.graficoLogins.nativeElement,
@@ -338,6 +339,7 @@ export class Admin {
   }
 
   crearGraficoLikes(datos: ILikeEvent[]) {
+    this.chartLikes?.destroy();
 
     this.chartLikes = new Chart(
       this.graficoLikes.nativeElement,
@@ -395,7 +397,8 @@ export class Admin {
   }
 
   crearGraficoVisitas(datos: IProfileVisit[]) {
-    console.log('grafico visitas', datos);
+    this.chartVisitas?.destroy();
+    
     this.chartVisitas = new Chart(
       this.graficoVisitas.nativeElement,
       {
