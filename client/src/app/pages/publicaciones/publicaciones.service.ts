@@ -38,8 +38,10 @@ export class PublicacionesService {
     }
 
     cargarTodas(likes?: string, author?: string) {
+        console.log('CARGAR TODAS');
         this.findTodas(likes, author).subscribe({
         next: publicaciones => {
+            console.log('RECIBIDAS', publicaciones.length);
             this.publicaciones.set(publicaciones);
         }
         });

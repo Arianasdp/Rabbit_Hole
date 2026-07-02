@@ -44,4 +44,8 @@ export class AuthApiService {
   toggleDeleted(id: string) {
     return this.http.patch<Usuario>(`${environment.apiUrl}/usuarios/${id}/toggle-delete`, {});
   }
+
+  registroAdmin(datos: RegistroDto | FormData) {
+    return this.http.post<Usuario>(`${this.apiUrl}/usuarios/registro`, datos);
+  }
 }

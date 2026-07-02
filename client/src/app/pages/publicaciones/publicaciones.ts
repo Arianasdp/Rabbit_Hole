@@ -35,6 +35,7 @@ export class Publicaciones {
     });
     console.log(this.publicaciones);
     effect(() => {
+      console.log('EFECTO: ', this.sort(), this.author());
       this.publicacionesService.cargarTodas(this.sort(), this.author());
     });
     this.authorSearch$.pipe(debounceTime(400)).subscribe(valor => {

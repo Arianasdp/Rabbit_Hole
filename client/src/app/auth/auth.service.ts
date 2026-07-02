@@ -90,6 +90,16 @@ export class AuthService {
     }
   }
 
+  async registroAdmin(datos: RegistroDto | FormData) {
+    try {
+      return await firstValueFrom(
+        this.authApi.registroAdmin(datos));
+      } catch (error: any) {
+      console.log(error);
+      throw error;
+    }
+  }
+
   async login(datos: LoginDto) {
     const respuesta = await firstValueFrom(this.authApi.loguear(datos));
 

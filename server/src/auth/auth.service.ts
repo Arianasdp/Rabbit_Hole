@@ -3,9 +3,12 @@ import { CreateUsuarioDto } from '../usuarios/dto/create-usuario.dto';
 import * as bcrypt from 'bcrypt';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { LoginUsuarioDto } from '../usuarios/dto/login-usuario.dto';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Model } from 'mongoose';
 import { Usuario } from '../usuarios/entities/usuario.entity';
 import { JwtService } from '../security/jwt.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { LoginEvent } from './entities/loginEvent.entity';
+import { ProfileVisit } from './entities/profileVisit.entity';
 
 export type UsuarioDocument = HydratedDocument<Usuario>;
 
@@ -14,6 +17,9 @@ export class AuthService {
   constructor(
     private readonly usuariosService: UsuariosService,
     private jwtService: JwtService,
+    @InjectModel(LoginEvent.name) private LoginEventModel: Model<LoginEvent>,
+    @InjectModel(ProfileVisit.name)
+    private ProfileVisitModel: Model<ProfileVisit>,
   ) {}
 
   async registrar(createUsuarioDto: CreateUsuarioDto, filePath: string) {
@@ -38,7 +44,7 @@ export class AuthService {
     if (usuarioEncontrado.deleted) {
       throw new ForbiddenException('El usuario ha sido deshabilitado');
     }
-
+    await this.LoginEventModel.create({ user_id: usuarioEncontrado._id });
     return this.createToken(usuarioEncontrado);
   }
 
@@ -56,7 +62,12 @@ export class AuthService {
     };
   }
 
-  async traerUser(id: string) {
+  async traerme(id: string) {
+    return this.usuariosService.traerPorId(id);
+  }
+
+  async traerUser(id: string, id_me: string) {
+    await this.ProfileVisitModel.create({ visitor_id: id_me, visited_id: id });
     return this.usuariosService.traerPorId(id);
   }
 }

@@ -51,6 +51,10 @@ export class Perfil {
         publicaciones.filter(publi => publi._id !== id)
       );
       this.cargarPublicaciones();
+
+      if (this.publicacionSeleccionada()?._id === id) {
+      this.cerrarModal();
+    }
     }
 
   cargarPublicaciones() {

@@ -120,4 +120,86 @@ export class ComentariosService {
       total,
     };
   }
+
+  traerComentariosPorPeriodo(desde: string, hasta: string) {
+    const fechaDesde = new Date(desde);
+    const fechaHasta = new Date(hasta);
+
+    return this.ComentarioModel.aggregate([
+      {
+        $match: {
+          created: {
+            $gte: fechaDesde,
+            $lte: fechaHasta,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: '%Y-%m-%d',
+              date: '$created',
+            },
+          },
+          cantidad: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $sort: {
+          _id: 1,
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          fecha: '$_id',
+          cantidad: 1,
+        },
+      },
+    ]);
+  }
+
+  traerComentariosPorPublicacionYPeriodo(desde: string, hasta: string) {
+    const fechaDesde = new Date(desde);
+    const fechaHasta = new Date(hasta);
+
+    return this.ComentarioModel.aggregate([
+      {
+        $match: {
+          created: {
+            $gte: fechaDesde,
+            $lte: fechaHasta,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: '$publicacion_id',
+          cantidad: {
+            $sum: 1,
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: 'publicacions',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'publicacion',
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          publicacion: {
+            $arrayElemAt: ['$publicacion.title', 0],
+          },
+          cantidad: 1,
+        },
+      },
+    ]);
+  }
 }

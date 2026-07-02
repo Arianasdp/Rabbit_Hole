@@ -38,6 +38,14 @@ export class UsuariosService {
     });
   }
 
+  async registrarUser(createUsuarioDto: CreateUsuarioDto, filePath: string) {
+    const hash = await bcrypt.hash(createUsuarioDto.password, 10);
+
+    createUsuarioDto.password = hash;
+
+    return await this.create(createUsuarioDto, filePath);
+  }
+
   async traerPorMail(loginUsuarioDto: LoginUsuarioDto) {
     console.log(loginUsuarioDto);
     const usuarioEncontrado = await this.UsuarioModel.findOne({

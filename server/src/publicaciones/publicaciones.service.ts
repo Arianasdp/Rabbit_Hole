@@ -1,13 +1,19 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { Publicacion } from './entities/publicacion.entity';
 import { CreatePublicacionDto } from './dto/create-publicacion.dto';
+import { LikeEvent } from './entities/likeEvent.entity';
 
 @Injectable()
 export class PublicacionesService {
   constructor(
     @InjectModel(Publicacion.name) private PublicacionModel: Model<Publicacion>,
+    @InjectModel(LikeEvent.name) private LikeEventModel: Model<LikeEvent>,
   ) {}
 
   async create(
@@ -107,7 +113,7 @@ export class PublicacionesService {
     const sortField: Record<string, 1 | -1> =
       sort === 'likes' ? { likesCount: -1 } : { created: -1 };
 
-    return this.PublicacionModel.aggregate([
+    const resultado = await this.PublicacionModel.aggregate([
       {
         $lookup: {
           from: 'usuarios',
@@ -156,6 +162,10 @@ export class PublicacionesService {
         },
       },
     ]);
+
+    console.log('RESULTADO', resultado.length);
+
+    return resultado;
   }
 
   async toggleLike(id: string, usuarioId: string) {
@@ -178,6 +188,17 @@ export class PublicacionesService {
         },
         { returnDocument: 'after' },
       ).populate('author');
+
+      await this.LikeEventModel.findOneAndUpdate(
+        {
+          publicacion_id: id,
+          author: usuarioId,
+          deleted: false,
+        },
+        {
+          deleted: true,
+        },
+      );
     } else {
       publicacionActualizada = await this.PublicacionModel.findByIdAndUpdate(
         id,
@@ -186,6 +207,11 @@ export class PublicacionesService {
         },
         { returnDocument: 'after' },
       ).populate('author');
+
+      await this.LikeEventModel.create({
+        publicacion_id: publicacion._id,
+        author: usuarioId,
+      });
     }
 
     return {
@@ -195,14 +221,14 @@ export class PublicacionesService {
     };
   }
 
-  async remove(id: string, userId: string) {
+  async remove(id: string, userId: string, role: string) {
     const publicacion = await this.PublicacionModel.findById(id);
 
     if (!publicacion) {
       throw new NotFoundException();
     }
 
-    if (publicacion.author.toString() !== userId) {
+    if (publicacion.author.toString() !== userId && role !== 'administrador') {
       throw new ForbiddenException();
     }
 
@@ -217,5 +243,44 @@ export class PublicacionesService {
 
   async findPublicacionPorId(id: string) {
     return this.PublicacionModel.find({ _id: id, deleted: false });
+  }
+
+  traerPublicacionesPorUsuario(desde: string, hasta: string) {
+    const fechaDesde = new Date(desde);
+    const fechaHasta = new Date(hasta);
+
+    return this.PublicacionModel.aggregate([
+      {
+        $match: {
+          created: {
+            $gte: fechaDesde,
+            $lte: fechaHasta,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: '$author',
+          cantidad: { $sum: 1 },
+        },
+      },
+      {
+        $lookup: {
+          from: 'usuarios',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'usuario',
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          usuario: {
+            $arrayElemAt: ['$usuario.username', 0],
+          },
+          cantidad: 1,
+        },
+      },
+    ]);
   }
 }

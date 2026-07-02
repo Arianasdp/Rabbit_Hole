@@ -81,12 +81,12 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('me')
   me(@Req() req) {
-    return this.authService.traerUser(req.user.sub);
+    return this.authService.traerme(req.user.sub);
   }
 
   @UseGuards(AuthGuard)
   @Get('users/:id')
-  user(@Param('id') id: string) {
-    return this.authService.traerUser(id);
+  user(@Req() req, @Param('id') id: string) {
+    return this.authService.traerUser(id, req.user.sub);
   }
 }

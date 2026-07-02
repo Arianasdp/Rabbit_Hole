@@ -8,6 +8,7 @@ import { Comentario, comentarioSchema } from './entities/comentario.entity';
 import { ComentariosService } from './comentarios.service';
 import { ComentariosController } from './comentarios.controller';
 import { SecurityModule } from 'src/security/security.module';
+import { LikeEvent, likeEventSchema } from './entities/likeEvent.entity';
 
 @Module({
   imports: [
@@ -21,9 +22,14 @@ import { SecurityModule } from 'src/security/security.module';
         name: Comentario.name,
         schema: comentarioSchema,
       },
+      {
+        name: LikeEvent.name,
+        schema: likeEventSchema,
+      },
     ]),
   ],
   providers: [PublicacionesService, AuthGuard, ComentariosService],
   controllers: [PublicacionesController, ComentariosController],
+  exports: [PublicacionesService, ComentariosService],
 })
 export class PublicacionesModule {}

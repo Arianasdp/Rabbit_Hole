@@ -1,0 +1,284 @@
+    <div class="form-wrapper">
+        <div class="form-container">
+            <form [formGroup]="miForm" class="form" (ngSubmit)="accion()">
+
+                <div class="logo-container">
+                    
+                        <img src="assets/rabbithole.png" alt="rabbit hole">
+                    
+                </div>
+
+                <p id="heading">Registro</p>
+
+                @if (mostrarRol()) {
+                    <div class="field role-field">
+                        <label class="role-option">
+                            <input
+                                type="radio"
+                                name="profile"
+                                formControlName="profile"
+                                value="usuario"
+                            >
+                            <span>Usuario</span>
+                        </label>
+
+                        <label class="role-option">
+                            <input
+                                type="radio"
+                                name="profile"
+                                formControlName="profile"
+                                value="administrador"
+                            >
+                            <span>Administrador</span>
+                        </label>
+                    </div>
+                }
+
+                <div class="horizontal">
+                    <div class="col">
+
+                        <div class="field doble-campo" [class.invalid]="name?.invalid && (name?.dirty || name?.touched)">
+                            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="currentColor" viewBox="0 0 512 512">
+                                <path
+                                    d="M256 288c79.5 0 144-64.5 144-144S335.5 0 256 0 112 64.5 112 144s64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16H128C57.3 320 0 377.3 0 448v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z" />
+                            </svg>
+                            
+                            <input type="text"  formControlName="name" placeholder="Nombre" class="input-field" autocomplete="off"/>
+                        </div>
+
+                        @if (name?.touched && name?.hasError('required')) {
+                            <p class="error">El campo nombre es obligatorio</p>
+                        }
+
+                        @if (name?.touched && name?.hasError('minlength')) {
+                            <p class="error">Tu nombre no puede tener menos de 2 letras</p>
+                        }
+
+                        @if ((name?.dirty || name?.touched) && name?.hasError('maxlength')) {
+                            <p class="error">Tu nombre no puede tener más de 15 letras</p>
+                        }
+
+                        @if ((name?.dirty || name?.touched) && name?.hasError('pattern')) {
+                            <p class="error">Solo se permiten letras</p>
+                        }
+                    </div>
+
+                    <div class="col">
+                        <div class="field doble-campo" [class.invalid]="surname?.invalid && (surname?.dirty || surname?.touched)">
+                            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="currentColor" viewBox="0 0 512 512">
+                                <path
+                                    d="M256 288c79.5 0 144-64.5 144-144S335.5 0 256 0 112 64.5 112 144s64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16H128C57.3 320 0 377.3 0 448v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z" />
+                            </svg>
+
+                            <input type="text"  formControlName="surname" placeholder="Apellido" class="input-field" autocomplete="off"/>
+                        </div>
+
+                        @if (surname?.touched && surname?.hasError('required')) {
+                            <p class="error">El campo apellido es obligatorio</p>
+                        }
+
+                        @if (surname?.touched && surname?.hasError('minlength')) {
+                            <p class="error">Tu apellido no puede tener menos de 2 letras</p>
+                        }
+
+                        @if ((surname?.dirty || surname?.touched) && surname?.hasError('maxlength')) {
+                            <p class="error">Tu apellido no puede tener más de 15 letras</p>
+                        }
+
+                        @if ((surname?.dirty || surname?.touched) && surname?.hasError('pattern')) {
+                            <p class="error">Solo se permiten letras</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="field" [class.invalid]="name?.invalid && (username?.dirty || username?.touched)">
+                            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                fill="currentColor" viewBox="0 0 512 512">
+                                <path
+                                    d="M256 288c79.5 0 144-64.5 144-144S335.5 0 256 0 112 64.5 112 144s64.5 144 144 144zm128 32h-55.1c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16H128C57.3 320 0 377.3 0 448v16c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-16c0-70.7-57.3-128-128-128z" />
+                            </svg>
+                            
+                            <input type="text"  formControlName="username" placeholder="Nombre de usuario" class="input-field" autocomplete="off"/>
+                        </div>
+
+                        @if (username?.touched && username?.hasError('required')) {
+                            <p class="error">El campo nombre de usuario es obligatorio</p>
+                        }
+
+                        @if (username?.touched && username?.hasError('minlength')) {
+                            <p class="error">Tu nombre de usuario no puede tener menos de 2 letras</p>
+                        }
+
+                        @if ((username?.dirty || username?.touched) && username?.hasError('maxlength')) {
+                            <p class="error">Tu nombre de usuario no puede tener más de 15 letras</p>
+                        }
+
+                        @if ((username?.dirty || username?.touched) && username?.hasError('pattern')) {
+                            <p class="error">Solo se permiten letras</p>
+                        }
+
+                <div class="field" [class.invalid]="birthdate?.invalid && (birthdate?.dirty || birthdate?.touched)"
+                    >
+                    <i class="bi bi-calendar-date input-icon"></i>
+
+                    <input
+                        type="date"
+                        formControlName="birthdate"
+                        class="input-field"
+                    >
+                    </div>
+
+                    @if (birthdate?.touched && birthdate?.hasError('required')) {
+                    <p class="error">La fecha de nacimiento es obligatoria</p>
+                    }
+
+                    @if (birthdate?.dirty && birthdate?.hasError('menorEdad')) {
+                    <p class="error">Tenés que ser mayor de 18 años</p>
+                    }
+
+                    @if (birthdate?.dirty && birthdate?.hasError('edadInvalida')) {
+                    <p class="error">La fecha ingresada no parece válida</p>
+                    }
+
+                <div class="field" [class.invalid]="email?.invalid && email?.touched">
+                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z">
+                        </path>
+                    </svg>
+
+                    <input type="email" formControlName="email" placeholder="Email" class="input-field"
+                        autocomplete="off"/>
+
+                </div>
+
+                @if (email?.touched && email?.hasError('required')) {
+                <p class="error">El email es obligatorio</p>
+                }
+
+                @if (email?.touched && email?.hasError('email')) {
+                <p class="error">Ingresá un email válido</p>
+                }
+
+                <div class="horizontal">
+                    <div class="col">
+
+                    <div class="field doble-campo" [class.invalid]="password?.invalid && password?.touched">
+                        <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" viewBox="0 0 16 16">
+                            <path
+                                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z">
+                            </path>
+                        </svg>
+
+                        <input type="password" formControlName="password" placeholder="Contraseña" class="input-field"/>
+                    </div>
+                
+
+                    @if (password?.touched && password?.hasError('required')) {
+                    <p class="error">La contraseña es obligatoria</p>
+                    }
+
+                    @if (password?.touched && password?.hasError('minlength')) {
+                    <p class="error">Mínimo 8 caracteres</p>
+                    }
+
+                    @if (password?.touched && password?.hasError('maxlength')) {
+                    <p class="error">Máximo 15 caracteres</p>
+                    }
+
+                    @if (password?.dirty && password?.hasError('pattern')) {
+                    <p class="error">
+                        La contraseña debe contener al menos una mayúscula y un número.
+                    </p>
+                    }
+                </div>
+
+                <div class="col">
+
+                <div class="field doble-campo" [class.invalid]="repeatPassword?.invalid && repeatPassword?.touched">
+                    <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" viewBox="0 0 16 16">
+                        <path
+                            d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z">
+                        </path>
+                    </svg>
+
+                    <input type="password" formControlName="repeatPassword" placeholder="Repetir contraseña" class="input-field"/>
+                </div>
+                
+
+                @if (password?.touched && password?.hasError('required')) {
+                <p class="error">Repetir la contraseña es obligatorio</p>
+                }
+                
+                @if (
+                    miForm.hasError('passwordsMismatch') &&
+                    repeatPassword?.touched
+                    ) {
+                    <p class="error">
+                        Las contraseñas no coinciden
+                    </p>
+                    }
+                
+                    </div>
+                </div>
+
+                <div class="field" [class.invalid]="description?.invalid && (description?.dirty || description?.touched)">
+                <i class="bi bi-file-text input-icon"></i>
+
+                <textarea
+                    formControlName="description"
+                    placeholder="Descripción"
+                    class="input-field"
+                    rows="1"
+                ></textarea>
+                </div>
+
+                @if (description?.touched && description?.hasError('required')) {
+                <p class="error">La descripción es obligatoria</p>
+                }
+
+                @if (description?.dirty && description?.hasError('minlength')) {
+                <p class="error">La descripción debe tener al menos 2 caracteres</p>
+                }
+
+                @if (description?.dirty && description?.hasError('maxlength')) {
+                <p class="error">La descripción no puede superar los 140 caracteres</p>
+                }
+
+                <div class="field">
+                    <i class="bi bi-image input-icon"></i>
+
+                    <input
+                        type="file"
+                        accept="image/*"
+                        (change)="onFileSelected($event)"
+                        class="input-field"
+                    />
+                </div>
+
+                @if (registroError()) {
+                    <p class="error">{{ registroError() }}</p>
+                }
+
+                <div class="btn">
+                    <button type="submit" [disabled]="miForm.invalid" class="button1">Registrate</button>
+                </div>
+
+                @if(!mostrarRol()) {
+                <button type="button" class="button2" routerLink="../login">Ya tenés una cuenta?</button>}
+            </form>
+        </div>
+        @if (showRegistroModal) {
+                    <app-modal
+                    titulo="Felicidades"
+                    mensaje="Usuario correctamente creado"
+                    (aceptar)="cerrarModal()"
+                    (cancelar)="cerrarModal()"
+                    />
+                }
+    </div>

@@ -35,6 +35,7 @@ export class Publicacion {
     ) {}
 
   toggleLike() {
+    console.log('CLICK en togglelike');
   if (this.authService.isLoggedIn()) {
     this.publicacionesService.toggleLike(this.publicacion()._id).subscribe(publiActualizada => {
       this.animarLikes = true;

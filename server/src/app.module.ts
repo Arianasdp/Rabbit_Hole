@@ -8,6 +8,7 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { AuthModule } from './auth/auth.module';
 import { PublicacionesModule } from './publicaciones/publicaciones.module';
 import { SecurityModule } from './security/security.module';
+import { EstadisticasModule } from './estadisticas/estadisticas.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SecurityModule } from './security/security.module';
     AuthModule,
     PublicacionesModule,
     SecurityModule,
+    EstadisticasModule,
   ],
   controllers: [AppController],
   providers: [

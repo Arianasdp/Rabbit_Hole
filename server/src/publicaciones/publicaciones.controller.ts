@@ -94,13 +94,22 @@ export class PublicacionesController {
 
   @UseGuards(AuthGuard)
   @Get('todas')
-  scrollInfinito(
+  async scrollInfinito(
     @Req() req: Request,
     @Query('sort') sort?: string,
     @Query('author') author?: string,
   ) {
+    console.log(req['user']?.sub);
     const userId = req['user']?.sub;
-    return this.publicacionesService.findInfinito(sort, author, userId);
+    const publicaciones = await this.publicacionesService.findInfinito(
+      sort,
+      author,
+      userId,
+    );
+
+    console.log('CONTROLLER', publicaciones.length);
+
+    return publicaciones;
   }
 
   @UseGuards(AuthGuard)
@@ -116,6 +125,7 @@ export class PublicacionesController {
   @Delete(':id')
   deletMyPost(@Param('id') id: string, @Req() req) {
     const userId = req['user']?.sub;
-    return this.publicacionesService.remove(id, userId);
+    const userRole = req['user']?.role;
+    return this.publicacionesService.remove(id, userId, userRole);
   }
 }

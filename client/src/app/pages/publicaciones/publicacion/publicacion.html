@@ -73,7 +73,7 @@
 
         <hr>
         
-        <div class="like-button" (click)="toggleLike()">
+        <div class="like-button">
             <input
                 class="on"
                 [id]="'heart-' + publicacion()._id"
@@ -83,7 +83,7 @@
                 <label
                     class="like"
                     [for]="'heart-' + publicacion()._id"
-                    >
+                    (click)="toggleLike()">
                 <svg
                 class="like-icon"
                 fill-rule="nonzero"

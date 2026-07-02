@@ -66,4 +66,48 @@
             </table>
         </div>
     </div>
+    <app-registro-form
+        (usuarioCreado)="agregarUsuario($event)"
+        [mostrarRol]="true">
+    </app-registro-form>
+    <form [formGroup]="filtroForm" class="form-filtro">
+
+        <input
+            class="filtro-input"
+            type="date"
+            formControlName="desde">
+
+        <input
+            class="filtro-input"
+            type="date"
+            formControlName="hasta">
+
+        <button
+            class="filtro-btn"
+            type="button"
+            (click)="buscar()">
+            Buscar
+        </button>
+
+        </form>
+    <div class="estadisticas-grid">
+        <div class="chart-container">
+            <canvas #publicacionesChart></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas #graficoComentarios></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas #graficoComentariosPublicacion></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas #graficoLogins></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas #graficoVisitas></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas #graficoLikes></canvas>
+        </div>
+    </div>
 </div>
