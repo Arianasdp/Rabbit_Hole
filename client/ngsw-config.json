@@ -1,0 +1,25 @@
+{
+    "index": "/index.html",
+    "assetGroups": [
+        {
+        "name": "app",
+        "installMode": "prefetch",
+        "resources": {
+            "files": [
+            "/*.js",
+            "/*.css",
+            "/index.html"
+            ]
+        }
+        },
+        {
+        "name": "assets",
+        "installMode": "lazy",
+        "resources": {
+            "files": [
+            "/public/**"
+            ]
+        }
+        }
+    ]
+}
